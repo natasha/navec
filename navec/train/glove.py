@@ -128,11 +128,16 @@ def glove_shuffle(bin, input, output, memory):
 #########
 
 
-def glove_emb(bin, input, output, vocab, dim, threads, iterations):
+def parse_log(lines):
+    for line in lines:
+        yield line.decode('ascii').rstrip('\n')
+
+
+def glove_emb(bin, cooc, vocab, output, dim, threads, iterations):
     prefix, _ = split_extension(output)
     command = [
         bin,
-        '-input-file', input,
+        '-input-file', cooc,
         '-save-file', prefix,
         '-vocab-file', vocab,
 
@@ -144,5 +149,6 @@ def glove_emb(bin, input, output, vocab, dim, threads, iterations):
         '-verbose', '2'
     ]
     with Popen(command, stderr=PIPE) as process:
-        for line in process.stderr:
+        log = parse_log(process.stderr)
+        for line in log:
             yield line

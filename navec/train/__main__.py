@@ -21,6 +21,11 @@ from .cooc import (
     cooc_upload,
     cooc_download
 )
+from .emb import (
+    emb_fit,
+    emb_upload,
+    emb_download
+)
 
 
 def main():
@@ -103,6 +108,31 @@ def main():
 
     sub = cooc.add_parser('download')
     sub.set_defaults(function=cooc_download)
+    sub.add_argument('key')
+    sub.add_argument('path', nargs='?')
+
+    ########
+    #   EMB
+    #######
+
+    emb = subs.add_parser('emb').add_subparsers()
+
+    sub = emb.add_parser('fit')
+    sub.set_defaults(function=emb_fit)
+    sub.add_argument('cooc')
+    sub.add_argument('vocab')
+    sub.add_argument('output')
+    sub.add_argument('--dim', type=int, default=250)
+    sub.add_argument('--threads', type=int, default=4)
+    sub.add_argument('--iterations', type=int, default=5)
+
+    sub = emb.add_parser('upload')
+    sub.set_defaults(function=emb_upload)
+    sub.add_argument('path')
+    sub.add_argument('key', nargs='?')
+
+    sub = emb.add_parser('download')
+    sub.set_defaults(function=emb_download)
     sub.add_argument('key')
     sub.add_argument('path', nargs='?')
 
