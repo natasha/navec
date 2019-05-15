@@ -1,0 +1,6 @@
+numpy
+
+# dev
+pytest==3.1.2
+pytest-flakes==4.0.0
+pytest-pep8==1.0.6

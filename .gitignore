@@ -1,0 +1,9 @@
+.cache
+.pytest_cache
+.ipynb_checkpoints
+.DS_Store
+*.pyc
+*.egg-info
+build
+dist
+notes.md
