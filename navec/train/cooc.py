@@ -1,5 +1,6 @@
 
 import sys
+
 from .s3 import upload as cooc_upload  # noqa
 from .s3 import download as cooc_download  # noqa
 from .glove import Glove
@@ -13,4 +14,13 @@ def cooc_count(args):
         vocab=args.vocab,
         memory=args.memory,
         window=args.window
+    )
+
+
+def cooc_shuffle(args):
+    glove = Glove.from_env()
+    glove.shuffle(
+        sys.stdin,
+        sys.stdout,
+        memory=args.memory
     )

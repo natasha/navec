@@ -17,6 +17,7 @@ from .vocab import (
 )
 from .cooc import (
     cooc_count,
+    cooc_shuffle,
     cooc_upload,
     cooc_download
 )
@@ -90,6 +91,10 @@ def main():
     sub.add_argument('vocab')
     sub.add_argument('--memory', type=int, default=4)
     sub.add_argument('--window', type=int, default=10)
+
+    sub = cooc.add_parser('shuffle')
+    sub.set_defaults(function=cooc_shuffle)
+    sub.add_argument('--memory', type=int, default=4)
 
     sub = cooc.add_parser('upload')
     sub.set_defaults(function=cooc_upload)
