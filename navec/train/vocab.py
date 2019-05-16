@@ -47,9 +47,9 @@ def vocab_quantile_(lines, shares=SHARES):
 
     counts = sorted(counts, reverse=True)
     for index, count in enumerate(counts):
+        accumulator += count
         if accumulator / total >= share:
             yield share, index
             if not shares:
                 break
             share, shares = pop(shares)
-        accumulator += count
