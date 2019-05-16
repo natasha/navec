@@ -11,11 +11,11 @@ from .glove import (
 
 def vocab_count(args):
     glove = Glove.from_env()
-    glove.vocab(sys.stdin, sys.stdout)
+    glove.vocab(sys.stdin.buffer, sys.stdout.buffer)
 
 
 def vocab_quantile(args):
-    count = vocab_quantile_(sys.stdin, args.share)
+    count = vocab_quantile_(sys.stdin.buffer, args.share)
     print(count)
 
 
