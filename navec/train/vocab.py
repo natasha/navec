@@ -23,7 +23,8 @@ def vocab_quantile(args):
 SHARES = [
     0.5, 0.6, 0.7, 0.8, 0.9,
     0.91, 0.92, 0.93, 0.94,
-    0.95, 0.96, 0.97, 0.98, 0.99
+    0.95, 0.96, 0.97, 0.98,
+    0.99, 1.0
 ]
 
 
@@ -37,14 +38,18 @@ def vocab_quantile_(lines, shares=SHARES):
 
     records = parse_glove_vocab(lines)
     counts = [count for _, count in records]
+
     total = sum(counts)
     accumulator = 0
+
+    shares = sorted(shares)
     share, shares = pop(shares)
+
     counts = sorted(counts, reverse=True)
     for index, count in enumerate(counts):
         if accumulator / total >= share:
             yield share, index
-            share, shares = pop(shares)
             if not shares:
                 break
+            share, shares = pop(shares)
         accumulator += count
