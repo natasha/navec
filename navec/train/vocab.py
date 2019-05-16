@@ -15,18 +15,36 @@ def vocab_count(args):
 
 
 def vocab_quantile(args):
-    count = vocab_quantile_(sys.stdin.buffer, args.share)
-    print(count)
+    records = vocab_quantile_(sys.stdin.buffer)
+    for share, index in records:
+        print('%0.3f\t%d' % (share, index))
 
 
-def vocab_quantile_(lines, share):
+SHARES = [
+    0.5, 0.6, 0.7, 0.8, 0.9,
+    0.91, 0.92, 0.93, 0.94,
+    0.95, 0.96, 0.97, 0.98, 0.99
+]
+
+
+def pop(items):
+    return items[0], items[1:]
+
+
+def vocab_quantile_(lines, shares=SHARES):
+    if not shares:
+        return
+
     records = parse_glove_vocab(lines)
     counts = [count for _, count in records]
     total = sum(counts)
     accumulator = 0
+    share, shares = pop(shares)
     counts = sorted(counts, reverse=True)
     for index, count in enumerate(counts):
         if accumulator / total >= share:
-            return index
+            yield share, index
+            share, shares = pop(shares)
+            if not shares:
+                break
         accumulator += count
-    return len(counts)

@@ -73,7 +73,6 @@ def main():
 
     sub = vocab.add_parser('quantile')
     sub.set_defaults(function=vocab_quantile)
-    sub.add_argument('share', type=float)
 
     sub = vocab.add_parser('upload')
     sub.set_defaults(function=vocab_upload)
