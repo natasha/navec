@@ -4,27 +4,21 @@ import argparse
 
 from .corpus import (
     CORPORA,
-    corpus_upload,
-    corpus_download,
     corpus_read
 )
 from .tokenize import tokenize
 from .vocab import (
     vocab_count,
-    vocab_quantile,
-    vocab_upload,
-    vocab_download
+    vocab_quantile
 )
 from .cooc import (
     cooc_count,
-    cooc_shuffle,
-    cooc_upload,
-    cooc_download
+    cooc_shuffle
 )
-from .emb import (
-    emb_fit,
-    emb_upload,
-    emb_download
+from .emb import emb_fit
+from .s3 import (
+    s3_upload,
+    s3_download
 )
 
 
@@ -38,21 +32,9 @@ def main():
     #   CORPUS
     #########
 
-    corpus = subs.add_parser('corpus').add_subparsers()
-
-    sub = corpus.add_parser('upload')
-    sub.set_defaults(function=corpus_upload)
-    sub.add_argument('path')
-    sub.add_argument('key', nargs='?')
-
-    sub = corpus.add_parser('download')
-    sub.set_defaults(function=corpus_download)
-    sub.add_argument('key')
-    sub.add_argument('path', nargs='?')
-
-    sub = corpus.add_parser('read')
+    sub = subs.add_parser('corpus')
     sub.set_defaults(function=corpus_read)
-    sub.add_argument('corpus', choices=CORPORA)
+    sub.add_argument('name', choices=CORPORA)
     sub.add_argument('path')
 
     ########
@@ -74,16 +56,6 @@ def main():
     sub = vocab.add_parser('quantile')
     sub.set_defaults(function=vocab_quantile)
 
-    sub = vocab.add_parser('upload')
-    sub.set_defaults(function=vocab_upload)
-    sub.add_argument('path')
-    sub.add_argument('key', nargs='?')
-
-    sub = vocab.add_parser('download')
-    sub.set_defaults(function=vocab_download)
-    sub.add_argument('key')
-    sub.add_argument('path', nargs='?')
-
     ########
     #   COOC
     #######
@@ -100,23 +72,11 @@ def main():
     sub.set_defaults(function=cooc_shuffle)
     sub.add_argument('--memory', type=int, default=4)
 
-    sub = cooc.add_parser('upload')
-    sub.set_defaults(function=cooc_upload)
-    sub.add_argument('path')
-    sub.add_argument('key', nargs='?')
-
-    sub = cooc.add_parser('download')
-    sub.set_defaults(function=cooc_download)
-    sub.add_argument('key')
-    sub.add_argument('path', nargs='?')
-
     ########
     #   EMB
     #######
 
-    emb = subs.add_parser('emb').add_subparsers()
-
-    sub = emb.add_parser('fit')
+    sub = subs.add_parser('emb')
     sub.set_defaults(function=emb_fit)
     sub.add_argument('cooc')
     sub.add_argument('vocab')
@@ -125,13 +85,19 @@ def main():
     sub.add_argument('--threads', type=int, default=4)
     sub.add_argument('--iterations', type=int, default=5)
 
-    sub = emb.add_parser('upload')
-    sub.set_defaults(function=emb_upload)
+    ######
+    #   S3
+    #######
+
+    s3 = subs.add_parser('s3').add_subparsers()
+
+    sub = s3.add_parser('upload')
+    sub.set_defaults(function=s3_upload)
     sub.add_argument('path')
     sub.add_argument('key', nargs='?')
 
-    sub = emb.add_parser('download')
-    sub.set_defaults(function=emb_download)
+    sub = s3.add_parser('download')
+    sub.set_defaults(function=s3_download)
     sub.add_argument('key')
     sub.add_argument('path', nargs='?')
 

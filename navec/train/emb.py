@@ -1,7 +1,5 @@
 
 from .log import log_info
-from .s3 import upload as emb_upload  # noqa
-from .s3 import download as emb_download  # noqa
 from .glove import Glove
 
 

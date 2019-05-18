@@ -1,8 +1,4 @@
 
-from .s3 import upload as corpus_upload  # noqa
-from .s3 import download as corpus_download  # noqa
-
-
 LIBRUSEC = 'librusec'
 CORPORA = [LIBRUSEC]
 

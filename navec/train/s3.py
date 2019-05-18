@@ -8,39 +8,6 @@ from .log import log_info
 URL = 'https://storage.yandexcloud.net'
 
 
-class S3:
-    def __init__(self, key, secret, bucket, url=URL):
-        self.bucket = bucket
-        self.client = s3_client(key, secret, url)
-
-    @classmethod
-    def from_env(cls):
-        key = env['S3_KEY']
-        secret = env['S3_SECRET']
-        bucket = env['S3_BUCKET']
-        return cls(key, secret, bucket)
-
-    def upload(self, path, key):
-        s3_upload(self.client, path, self.bucket, key)
-
-    def download(self, key, path):
-        s3_download(self.client, self.bucket, key, path)
-
-
-def s3_client(key, secret, url):
-    import boto3
-
-    session = boto3.session.Session(
-        aws_access_key_id=key,
-        aws_secret_access_key=secret,
-        region_name='us-east-1'
-    )
-    return session.client(
-        service_name='s3',
-        endpoint_url=url
-    )
-
-
 class Progress:
     def __init__(self):
         self.size = 0
@@ -54,7 +21,40 @@ class Progress:
         self.show()
 
 
-def s3_upload(client, path, bucket, key):
+class S3:
+    def __init__(self, key, secret, bucket, url=URL):
+        self.bucket = bucket
+        self.client = get_client(key, secret, url)
+
+    @classmethod
+    def from_env(cls):
+        key = env['S3_KEY']
+        secret = env['S3_SECRET']
+        bucket = env['S3_BUCKET']
+        return cls(key, secret, bucket)
+
+    def upload(self, path, key):
+        upload(self.client, path, self.bucket, key)
+
+    def download(self, key, path):
+        download(self.client, self.bucket, key, path)
+
+
+def get_client(key, secret, url):
+    import boto3
+
+    session = boto3.session.Session(
+        aws_access_key_id=key,
+        aws_secret_access_key=secret,
+        region_name='us-east-1'
+    )
+    return session.client(
+        service_name='s3',
+        endpoint_url=url
+    )
+
+
+def upload(client, path, bucket, key):
     log_info('%s -> %s/%s', path, bucket, key)
     client.upload_file(
         Filename=path,
@@ -67,7 +67,7 @@ def s3_upload(client, path, bucket, key):
     )
 
 
-def s3_download(client, bucket, key, path):
+def download(client, bucket, key, path):
     log_info('%s/%s -> %s', bucket, key, path)
     client.download_file(
         Bucket=bucket,
@@ -77,22 +77,16 @@ def s3_download(client, bucket, key, path):
     )
 
 
-def upload(args):
-    upload_(args.path, args.key)
-
-
-def upload_(path, key):
+def s3_upload(args):
+    key, path = args.key, args.path
     s3 = S3.from_env()
     if not key:
         key = basename(path)
     s3.upload(path, key)
 
 
-def download(args):
-    download_(args.key, args.path)
-
-
-def download_(key, path):
+def s3_download(args):
+    key, path = args.key, args.path
     s3 = S3.from_env()
     if not path:
         path = basename(key)

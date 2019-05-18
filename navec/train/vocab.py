@@ -1,8 +1,6 @@
 
 import sys
 
-from .s3 import upload as vocab_upload  # noqa
-from .s3 import download as vocab_download  # noqa
 from .glove import (
     Glove,
     parse_glove_vocab
