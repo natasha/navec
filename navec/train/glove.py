@@ -78,26 +78,6 @@ def glove_vocab(bin, input, output, min_count=1):
 ########
 
 
-def iter_read(file, size):
-    while True:
-        chunk = file.read(size)
-        if not chunk:
-            break
-        yield chunk
-
-
-def load_stream(path, size):
-    with open(path, 'rb') as file:
-        for chunk in iter_read(file, size):
-            yield chunk
-
-
-def dump_stream(stream, path):
-    with open(path, 'wb') as file:
-        for chunk in stream:
-            file.write(chunk)
-
-
 def parse_glove_cooc(stream, format=COOC_RECORD):
     for chunk in stream:
         for source, target, weight in iter_unpack(format, chunk):
