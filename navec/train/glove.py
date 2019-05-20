@@ -152,3 +152,15 @@ def glove_emb(bin, cooc, vocab, output, dim, threads, iterations):
         log = parse_log(process.stderr)
         for line in log:
             yield line
+
+
+def parse_glove_emb(lines):
+    vocab = []
+    weights = []
+    for line in lines:
+        parts = line.split()
+        word, vector = parts[0], parts[1:]
+        vector = [float(_) for _ in vector]
+        vocab.append(word)
+        weights.append(vector)
+    return vocab, weights

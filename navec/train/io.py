@@ -10,3 +10,9 @@ def iter_read(file, size):
         if not chunk:
             break
         yield chunk
+
+
+def load_lines(path):
+    with open(path) as file:
+        for line in file:
+            yield line.rstrip('\n')
