@@ -13,7 +13,8 @@ from .vocab import (
 )
 from .cooc import (
     cooc_count,
-    cooc_shuffle
+    cooc_shuffle,
+    cooc_read
 )
 from .emb import emb_fit
 from .s3 import (
@@ -67,6 +68,10 @@ def main():
     sub.add_argument('vocab')
     sub.add_argument('--memory', type=int, default=4)
     sub.add_argument('--window', type=int, default=10)
+
+    sub = cooc.add_parser('read')
+    sub.set_defaults(function=cooc_read)
+    sub.add_argument('path')
 
     sub = cooc.add_parser('shuffle')
     sub.set_defaults(function=cooc_shuffle)
