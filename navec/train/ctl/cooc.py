@@ -1,14 +1,10 @@
 
 import sys
 
-from .s3 import upload as cooc_upload  # noqa
-from .s3 import download as cooc_download  # noqa
-from .io import (
+from ..glove import (
     MB,
-    iter_read
-)
-from .glove import (
     Glove,
+    iter_read,
     parse_glove_cooc
 )
 

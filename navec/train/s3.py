@@ -1,8 +1,5 @@
 
 from os import environ as env
-from os.path import basename
-
-from .log import log_info
 
 
 URL = 'https://storage.yandexcloud.net'
@@ -55,7 +52,6 @@ def get_client(key, secret, url):
 
 
 def upload(client, path, bucket, key):
-    log_info('%s -> %s/%s', path, bucket, key)
     client.upload_file(
         Filename=path,
         Bucket=bucket,
@@ -68,26 +64,9 @@ def upload(client, path, bucket, key):
 
 
 def download(client, bucket, key, path):
-    log_info('%s/%s -> %s', bucket, key, path)
     client.download_file(
         Bucket=bucket,
         Key=key,
         Filename=path,
         Callback=Progress(),
     )
-
-
-def s3_upload(args):
-    key, path = args.key, args.path
-    s3 = S3.from_env()
-    if not key:
-        key = basename(path)
-    s3.upload(path, key)
-
-
-def s3_download(args):
-    key, path = args.key, args.path
-    s3 = S3.from_env()
-    if not path:
-        path = basename(key)
-    s3.download(key, path)

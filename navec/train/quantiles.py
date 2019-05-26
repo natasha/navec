@@ -1,22 +1,4 @@
 
-import sys
-
-from .glove import (
-    Glove,
-    parse_glove_vocab
-)
-
-
-def vocab_count(args):
-    glove = Glove.from_env()
-    glove.vocab(sys.stdin.buffer, sys.stdout.buffer)
-
-
-def vocab_quantile(args):
-    records = vocab_quantile_(sys.stdin.buffer)
-    for share, index in records:
-        print('%0.3f\t%d' % (share, index))
-
 
 SHARES = [
     0.5, 0.6, 0.7, 0.8, 0.9,
@@ -30,11 +12,10 @@ def pop(items):
     return items[0], items[1:]
 
 
-def vocab_quantile_(lines, shares=SHARES):
+def get_quantiles(records, shares=SHARES):
     if not shares:
         return
 
-    records = parse_glove_vocab(lines)
     counts = [count for _, count in records]
 
     total = sum(counts)

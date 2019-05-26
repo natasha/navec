@@ -8,7 +8,7 @@ setup(
     packages=find_packages(),
     entry_points={
         'console_scripts': [
-            'navec-train=navec.train.__main__:main'
+            'navec-train=navec.train.ctl.__main__:main'
         ]
     }
 )

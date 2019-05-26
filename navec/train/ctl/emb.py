@@ -1,6 +1,6 @@
 
-from .log import log_info
-from .glove import Glove
+from ..log import log_info
+from ..glove import Glove
 
 
 def emb_fit(args):
