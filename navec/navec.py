@@ -6,16 +6,28 @@ from .tar import (
 )
 from .pq import PQ
 from .vocab import Vocab
+from .record import Record
 
 
 VOCAB = 'vocab.txt'
 PQ_ = 'pq.bin'
 
 
-class Navec(object):
+class Navec(Record):
+    __attributes__ = ['vocab', 'pq']
+
     def __init__(self, vocab, pq):
         self.vocab = vocab
         self.pq = pq
+
+    def sim(self, a, b):
+        a = self.vocab[a]
+        b = self.vocab[b]
+        return self.pq.sim(a, b)
+
+    def __getitem__(self, word):
+        id = self.vocab[word]
+        return self.pq[id]
 
     def dump(self, path):
         with open_tar(path, 'w') as tar:
@@ -27,6 +39,6 @@ class Navec(object):
         with open_tar(path) as tar:
             file = load_tar(tar, VOCAB)
             vocab = Vocab.load(file)
-            file = load_tar(tar, PQ)
+            file = load_tar(tar, PQ_)
             pq = PQ.load(file)
             return cls(vocab, pq)

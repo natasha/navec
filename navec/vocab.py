@@ -1,12 +1,19 @@
 
+from .record import Record
 
-class Vocab(object):
+
+class Vocab(Record):
+    __attributes__ = ['words']
+
     def __init__(self, words):
         self.words = words
         self.word_ids = {
             word: id
             for id, word in enumerate(words)
         }
+
+    def __getitem__(self, word):
+        return self.word_ids[word]
 
     @property
     def as_bytes(self, encoding='utf8'):

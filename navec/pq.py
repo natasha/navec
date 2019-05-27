@@ -1,8 +1,12 @@
 
 import numpy as np
 
+from .record import Record
 
-class PQ(object):
+
+class PQ(Record):
+    __attributes__ = ['vectors', 'dim', 'subdim', 'centroids', 'indexes', 'codes']
+
     def __init__(self, vectors, dim, subdim, centroids, indexes, codes):
         self.vectors = vectors
         self.dim = dim
@@ -33,6 +37,11 @@ class PQ(object):
         ab = np.sum(self.ab[self.subdims, a_index, b_index])
         return ab / a_norm / b_norm
 
+    def __getitem__(self, id):
+        indexes = self.indexes[id]
+        parts = self.codes[self.subdims, indexes]
+        return np.concatenate(parts)
+
     @property
     def as_bytes(self):
         meta = self.vectors, self.dim, self.subdim, self.centroids
@@ -42,14 +51,14 @@ class PQ(object):
         return meta + indexes + codes
 
     @classmethod
-    def from_file(cls, file):
+    def load(cls, file):
         buffer = file.read(4 * 4)
         vectors, dim, subdim, centroids = np.frombuffer(buffer, np.uint32)
         buffer = file.read(vectors * subdim)
         indexes = np.frombuffer(buffer, np.uint8).reshape(vectors, subdim)
         buffer = file.read()
         codes = np.frombuffer(buffer, np.float32).reshape(subdim, centroids, -1)
-        return cls(dim, subdim, centroids, indexes, codes)
+        return cls(vectors, dim, subdim, centroids, indexes, codes)
 
 
 def quantize(matrix, subdim, sample, iterations, centroids=256):
@@ -61,6 +70,7 @@ def quantize(matrix, subdim, sample, iterations, centroids=256):
         Ks=centroids
     )
 
+    matrix = np.array(matrix)
     vectors, dim = matrix.shape
     indexes = np.random.randint(vectors, size=sample)
     selection = matrix[indexes]
