@@ -15,6 +15,9 @@ class Vocab(Record):
     def __getitem__(self, word):
         return self.word_ids[word]
 
+    def __contains__(self, word):
+        return word in self.word_ids
+
     @property
     def as_bytes(self, encoding='utf8'):
         buffer = b''

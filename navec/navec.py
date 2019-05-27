@@ -29,6 +29,14 @@ class Navec(Record):
         id = self.vocab[word]
         return self.pq[id]
 
+    def __contains__(self, word):
+        return word in self.vocab
+
+    def get(self, word, default=None):
+        if word in self:
+            return self[word]
+        return default
+
     def dump(self, path):
         with open_tar(path, 'w') as tar:
             write_tar(tar, self.vocab.as_bytes, VOCAB)
