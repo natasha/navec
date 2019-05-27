@@ -1,4 +1,6 @@
 
+import gzip
+
 from .record import Record
 
 
@@ -20,17 +22,14 @@ class Vocab(Record):
 
     @property
     def as_bytes(self, encoding='utf8'):
-        buffer = b''
-        for index, word in enumerate(self.words):
-            if index > 0:
-                buffer += b'\n'
-            buffer += word.encode(encoding)
-        return buffer
+        text = '\n'.join(self.words)
+        bytes = text.encode(encoding)
+        return gzip.compress(bytes)
 
     @classmethod
     def load(cls, file, encoding='utf8'):
-        words = []
-        for line in file:
-            word = line.decode(encoding).rstrip('\n')
-            words.append(word)
+        data = file.read()
+        bytes = gzip.decompress(data)
+        text = bytes.decode(encoding)
+        words = text.splitlines()
         return cls(words)

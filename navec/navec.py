@@ -9,7 +9,7 @@ from .vocab import Vocab
 from .record import Record
 
 
-VOCAB = 'vocab.txt'
+VOCAB = 'vocab.gz'
 PQ_ = 'pq.bin'
 
 
