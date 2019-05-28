@@ -25,9 +25,6 @@ def eval_sim(model, pairs, default=0):
     for (a, b), etalon in pairs:
         etalons.append(etalon)
 
-        # measure get speed
-        model.get(a)
-
         if a in model and b in model:
             guess = model.sim(a, b)
         else:
@@ -48,20 +45,24 @@ def eval_sim_clf(model, pairs):
     return average_precision_score(etalons, guesses)
 
 
-def eval_model(model, datasets, tagged=False):
+def eval_model(model, datasets, tagged=False, gets=1000):
     for dataset in datasets:
-        function = None
+        eval = None
         if dataset.type == CORR:
-            function = eval_sim_corr
+            eval = eval_sim_corr
         elif dataset.type == CLF:
-            function = eval_sim_clf
+            eval = eval_sim_clf
 
         pairs = dataset.pairs
         if tagged:
             pairs = dataset.tagged
 
-        score = function(model, pairs)
+        score = eval(model, pairs)
         yield dataset.name, score
+
+        # to measure get performance
+        for (a, b), _ in pairs[:gets]:
+            model.get(a)
 
 
 def eval_schemes(schemes, datasets):
