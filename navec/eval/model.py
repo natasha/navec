@@ -8,6 +8,7 @@ import numpy as np
 from gensim.models import KeyedVectors
 
 from navec.record import Record
+from navec import Navec
 
 
 #########
@@ -138,6 +139,12 @@ class RusvectoresFasttextScheme(RusvectoresScheme):
         return GensimFasttextModel(kv, self.stats)
 
 
+class NavecScheme(Scheme):
+    def _load(self):
+        raw = Navec.load(self.path)
+        return NavecModel(raw, self.stats)
+
+
 ########
 #
 #   MODEL
@@ -207,4 +214,26 @@ class GensimFasttextModel(GensimModel):
             + obj_size(kv.vectors)
             + obj_size(kv.vectors_vocab)
             + obj_size(kv.vectors_ngrams)
+        )
+
+
+class NavecModel(Model):
+    def __init__(self, raw, stats=None):
+        Model.__init__(self, stats)
+        self.raw = raw
+        self._get = raw.get
+        self._sim = raw.sim
+
+    def __contains__(self, word):
+        return word in self.raw
+
+    @property
+    def ram(self):
+        vocab = self.raw.vocab.words
+        pq = self.raw.pq
+        return (
+            sum(obj_size(_) for _ in vocab)
+            + obj_size(vocab)
+            + obj_size(pq.indexes)
+            + obj_size(pq.codes)
         )
