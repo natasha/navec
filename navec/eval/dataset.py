@@ -10,6 +10,7 @@ HJ = 'hj'
 RT = 'rt'
 AE = 'ae'
 AE2 = 'ae2'
+LRWC = 'lrwc'
 
 NOUN = 'NOUN'
 ADJ = 'ADJ'
@@ -88,14 +89,24 @@ def pos_tagged(pairs, analyzer):
 #######
 
 
+def parse_score(value):
+    # bool values for lrwc
+    if value == 'true':
+        return 1.0
+    elif value == 'false':
+        return 0.0
+    else:
+        return float(value)
+
+
 def parse_pairs(lines, delimiter=',', header=True, column=2):
     if header:
         next(lines)
     for line in lines:
         row = line.rstrip().split(delimiter)
         a, b = row[:2]
-        score = row[column]
-        yield (a, b), float(score)
+        score = parse_score(row[column])
+        yield (a, b), score
 
 
 def load_pairs(path, **kwargs):
