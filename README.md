@@ -163,7 +163,7 @@ cd ..
 
 export GLOVE_DIR=~/glove/build
 
-git clone https://github.com/kuk/navec.git
+git clone https://github.com/natasha/navec.git
 sudo -H pip3 install -e navec
 sudo -H pip3 install -r navec/requirements-dev.txt 
 
@@ -187,7 +187,7 @@ export GLOVE_DIR=~/path/to/glove/build
 
 Share text data
 ```bash
-navec-train s3 upload ~/proj/corus-data/russe/librusec_fb2.plain.gz librusec.gz
+navec-train s3 upload ~/path/to/librusec_fb2.plain.gz librusec.gz
 navec-train s3 download librusec.gz 
 ```
 
@@ -236,7 +236,7 @@ pv tokens.txt \
 	| navec-train cooc count vocab.txt --memory 7 --window 10 \
 	> cooc.bin
 
-# To monitor
+# Monitor
 tail -c 16 cooc.bin | navec-train cooc parse
 
 navec-train s3 upload cooc.bin librusec_cooc.bin
@@ -256,7 +256,7 @@ for i in 100 200 300 400 500 600;
 	do navec-train emb shuf_cooc.bin vocab.txt emb_${i}d.txt --dim $i --threads 10 --iterations 2;
 done
 
-# 300 has ok score (400, 500 a bit better), 
+# 300 has ok score. 400, 500 are a bit better, but too heavy
 navec-train emb shuf_cooc.bin vocab.txt emb_300d.txt --dim 300 --threads 10 --iterations 10
 
 navec-train s3 upload emb_300d.txt librusec_12B_500k_300d.txt
@@ -264,11 +264,13 @@ navec-train s3 upload emb_300d.txt librusec_12B_500k_300d.txt
 
 Quantize
 ```
+# Search for best compression that has still ok score
 for i in 300 150 100 75 60 50 30;
-	do navec-train quantize emb_300d.txt quant_300d_${i}q.tar $i --sample 100000 --iterations 20;
+	do navec-train quantize emb_300d.txt quant_300d_${i}q.tar $i --sample 100000 --iterations 10;
 done
 
-navec-train quantize emb.txt quant.tar 50 --sample 100000 --iterations 10
+# Select 100
+navec-train quantize emb_300d.txt quant_300d_100q.tar 100 --sample 100000 --iterations 10
 
 navec-train s3 upload quant_300d_100q.tar librusec_12B_500k_300d_100q.tar
 ```
