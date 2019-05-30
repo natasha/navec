@@ -19,30 +19,37 @@ class EvalRecord(Record):
         self.stats = stats
 
 
-def eval_sim(model, pairs, default=0):
-    etalons = []
-    guesses = []
-    for (a, b), etalon in pairs:
-        etalons.append(etalon)
+class Score(Record):
+    __attributes__ = ['value', 'support']
 
+    def __init__(self, value, support):
+        self.value = value
+        self.support = support
+
+
+def eval_sim_(model, pairs):
+    for (a, b), etalon in pairs:
         if a in model and b in model:
             guess = model.sim(a, b)
-        else:
-            guess = default
+            yield guess, etalon
 
-        guesses.append(guess)
-    return guesses, etalons
+
+def eval_sim(model, pairs):
+    results = eval_sim_(model, pairs)
+    guesses, etalons = zip(*results)
+    return len(guesses), guesses, etalons
 
 
 def eval_sim_corr(model, pairs):
-    guesses, etalons = eval_sim(model, pairs)
+    support, guesses, etalons = eval_sim(model, pairs)
     corr, p = spearmanr(guesses, etalons)
-    return corr
+    return Score(corr, support)
 
 
 def eval_sim_clf(model, pairs):
-    guesses, etalons = eval_sim(model, pairs)
-    return average_precision_score(etalons, guesses)
+    support, guesses, etalons = eval_sim(model, pairs)
+    precision = average_precision_score(etalons, guesses)
+    return Score(precision, support)
 
 
 def eval_model(model, datasets, tagged=False, gets=1000):

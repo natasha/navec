@@ -30,7 +30,7 @@ def report_table(records, schemes, datasets):
         ]
         for name in names:
             score = record.scores[name]
-            row.append('%0.3f' % score)
+            row.append('%0.3f / %d' % (score.value, score.support))
         data.append(row)
 
     table = pd.DataFrame(
