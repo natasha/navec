@@ -5,7 +5,7 @@
 
 > navec = huge datasets + vanila GloVe + quantization
 
-## Eval
+## Evaluation
 
 <table border="0" class="dataframe">
   <thead>
@@ -105,9 +105,24 @@
   </tbody>
 </table>
 
-## Dev
+## Development
+
+Test
+```bash
+make test
+```
+
+Package:
+```bash
+make version
+git push
+git push --tags
+
+make clean wheel upload
+```
 
 Create remote worker
+
 To compute cooc (large HDD)
 ```bash
 yc compute instance create \
