@@ -263,7 +263,7 @@ navec-train s3 upload emb_300d.txt librusec_12B_500k_300d.txt
 ```
 
 Quantize
-```
+```bash
 # Search for best compression that has still ok score
 for i in 300 150 100 75 60 50 30;
 	do navec-train quantize emb_300d.txt quant_300d_${i}q.tar $i --sample 100000 --iterations 10;
