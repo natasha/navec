@@ -37,6 +37,15 @@ class Navec(Record):
             return self[word]
         return default
 
+    @property
+    def as_gensim(self):
+        from gensim.models import KeyedVectors
+
+        model = KeyedVectors(self.pq.dim)
+        weights = self.pq.unpack()  # warning! memory heavy
+        model.add(self.vocab.words, weights)
+        return model
+
     def dump(self, path):
         with open_tar(path, 'w') as tar:
             write_tar(tar, self.vocab.as_bytes, VOCAB)

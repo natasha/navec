@@ -42,6 +42,10 @@ class PQ(Record):
         parts = self.codes[self.subdims, indexes]
         return parts.reshape(self.dim)
 
+    def unpack(self):
+        parts = self.codes[self.subdims, self.indexes]
+        return parts.reshape(self.vectors, self.dim)
+
     @property
     def as_bytes(self):
         meta = self.vectors, self.dim, self.subdim, self.centroids
