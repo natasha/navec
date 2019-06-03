@@ -40,7 +40,7 @@ class PQ(Record):
     def __getitem__(self, id):
         indexes = self.indexes[id]
         parts = self.codes[self.subdims, indexes]
-        return np.concatenate(parts)
+        return parts.reshape(self.dim)
 
     @property
     def as_bytes(self):
