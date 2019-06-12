@@ -20,6 +20,12 @@ class Vocab(Record):
     def __contains__(self, word):
         return word in self.word_ids
 
+    def __repr__(self):
+        return '{name}(words=[...])'.format(name=self.__class__.__name__)
+
+    def _repr_pretty_(self, printer, cycle):
+        printer.text(repr(self))
+
     @property
     def as_bytes(self, encoding='utf8'):
         text = '\n'.join(self.words)
