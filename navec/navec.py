@@ -46,6 +46,15 @@ class Navec(Record):
         model.add(self.vocab.words, weights)
         return model
 
+    @property
+    def as_torch(self):
+        from .torch import NavecEmbedding, NavecVocab
+
+        vocab, pq = self
+        emb = NavecEmbedding(pq.indexes, pq.codes)
+        vocab = NavecVocab(vocab.words)
+        return emb, vocab
+
     def dump(self, path):
         with open_tar(path, 'w') as tar:
             write_tar(tar, self.vocab.as_bytes, VOCAB)
