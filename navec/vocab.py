@@ -4,6 +4,9 @@ import gzip
 from .record import Record
 
 
+UNK = '<unk>'
+
+
 class Vocab(Record):
     __attributes__ = ['words']
 
@@ -11,7 +14,7 @@ class Vocab(Record):
         self.words = words
         self.word_ids = {
             word: id
-            for id, word in enumerate(words)
+            for id, word in enumerate(self.words)
         }
 
     def __getitem__(self, word):
