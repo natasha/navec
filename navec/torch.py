@@ -28,7 +28,7 @@ class NavecEmbedding(nn.Module):
         input = input.flatten()
 
         mask = input == self.pad_id
-        input[mask] = 0  # query first vector instead of pad_id
+        input[mask] = 0  # query first vector instead of pad_id, replace later
 
         # uint8 -> long
         indexes = self.indexes[input].long()  # input x subdim
