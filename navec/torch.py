@@ -23,8 +23,9 @@ class NavecEmbedding(nn.Module):
     def forward(self, input):
         if not isinstance(input, torch.LongTensor):
             raise TypeError('expected LongTensor')
-        if len(input.shape) != 1:
-            raise ValueError('expected 1d input')
+
+        shape = input.shape  # recover shape later
+        input = input.flatten()
 
         mask = input == self.pad_id
         input[mask] = 0  # query first vector instead of pad_id
@@ -39,6 +40,8 @@ class NavecEmbedding(nn.Module):
         output = output.view(-1, self.dim)  # input x dim
 
         output[mask] = self.pad
+        output = output.view(*shape, -1)
+
         return output
 
 
