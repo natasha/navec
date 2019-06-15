@@ -1,24 +1,42 @@
 
+import numpy as np
+
 import torch
 from torch import nn
+
+
+PAD = '<pad>'
 
 
 class NavecEmbedding(nn.Module):
     def __init__(self, indexes, codes):
         super(NavecEmbedding, self).__init__()
-        # same dtypes as in pq
-        self.codes = torch.tensor(codes, dtype=torch.float32)
-        self.indexes = torch.tensor(indexes, dtype=torch.uint8)
 
-        subdim, centroids, self.chunk = self.codes.shape
-        vectors, subdim = self.indexes.shape
-        self.dim = subdim * self.chunk
+        vectors, subdim = indexes.shape
+        subdim, centroids, chunk = codes.shape
+        self.chunk = chunk
+        self.dim = subdim * chunk
 
+        # add pad, assume centroids <= 255, so that pad_indexes fits
+        # into bytes
         self.pad_id = vectors
-        self.pad = torch.zeros(self.dim)
+        pad_indexes = np.full((1, subdim), centroids)
+        pad_codes = np.zeros((subdim, 1, chunk))
+        indexes = np.vstack([indexes, pad_indexes])
+        codes = np.hstack([codes, pad_codes])
+        
+        # same dtypes as in pq
+        indexes = torch.tensor(indexes, dtype=torch.uint8)
+        codes = torch.tensor(codes, dtype=torch.float32)
 
         # for torch.gather
-        self.codes = torch.transpose(self.codes, 0, 1)  # centroids x subdim x chunk
+        codes = codes.transpose(0, 1)  # centroids x subdim x chunk
+
+        self.codes = nn.Parameter(codes, requires_grad=False)
+        self.indexes = nn.Parameter(indexes, requires_grad=False)
+
+    def extra_repr(self):
+        return 'indexes=[...], codes=[...]'
 
     def forward(self, input):
         if not isinstance(input, torch.LongTensor):
@@ -27,25 +45,16 @@ class NavecEmbedding(nn.Module):
         shape = input.shape  # recover shape later
         input = input.flatten()
 
-        mask = input == self.pad_id
-        input[mask] = 0  # query first vector instead of pad_id, replace later
-
         # uint8 -> long
         indexes = self.indexes[input].long()  # input x subdim
-        indexes = indexes.unsqueeze(-1)  # input x subdim x 1
         # for torch.gather
+        indexes = indexes.unsqueeze(-1)  # input x subdim x 1
         indexes = indexes.expand(-1, -1, self.chunk)  # input x subdim x chunk
 
         output = torch.gather(self.codes, 0, indexes)  # input x subdim x chunk
-        output = output.view(-1, self.dim)  # input x dim
-
-        output[mask] = self.pad
-        output = output.view(*shape, -1)
+        output = output.view(*shape, self.dim)  # input x dim
 
         return output
-
-
-PAD = '<pad>'
 
 
 class NavecVocab(object):
