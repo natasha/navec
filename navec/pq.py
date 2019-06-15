@@ -65,7 +65,7 @@ class PQ(Record):
         return cls(vectors, dim, subdim, centroids, indexes, codes)
 
 
-def quantize(matrix, subdim, sample, iterations, centroids=256):
+def quantize(matrix, subdim, centroids, sample, iterations):
     import pqkmeans
 
     encoder = pqkmeans.encoder.PQEncoder(

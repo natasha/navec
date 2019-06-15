@@ -99,6 +99,7 @@ def main():
     sub.add_argument('emb')
     sub.add_argument('output')
     sub.add_argument('subdim', type=int)
+    sub.add_argument('--centroids', type=int, default=256)
     sub.add_argument('--sample', type=int, default=10000)
     sub.add_argument('--iterations', type=int, default=50)
 

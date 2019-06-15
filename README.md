@@ -270,7 +270,7 @@ for i in 300 150 100 75 60 50 30;
 done
 
 # Select 100
-navec-train quantize emb_300d.txt quant_300d_100q.tar 100 --sample 100000 --iterations 10
+navec-train quantize emb_300d.txt quant_300d_100q.tar 100 --sample 100000 --iterations 10 --centroids 255  # one for pad vector
 
 navec-train s3 upload quant_300d_100q.tar librusec_12B_500k_300d_100q.tar
 ```
