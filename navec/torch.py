@@ -39,9 +39,6 @@ class NavecEmbedding(nn.Module):
         return 'indexes=[...], codes=[...]'
 
     def forward(self, input):
-        if not isinstance(input, torch.LongTensor):
-            raise TypeError('expected LongTensor')
-
         shape = input.shape  # recover shape later
         input = input.flatten()
 
