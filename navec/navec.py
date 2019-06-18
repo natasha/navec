@@ -48,12 +48,12 @@ class Navec(Record):
 
     @property
     def as_torch(self):
-        from .torch import NavecEmbedding, NavecVocab
+        from .torch import NavecEmbedding
 
-        vocab, pq = self
-        emb = NavecEmbedding(pq.indexes, pq.codes)
-        vocab = NavecVocab(vocab.words)
-        return emb, vocab
+        return NavecEmbedding(
+            self.pq.indexes,
+            self.pq.codes
+        )
 
     def dump(self, path):
         with open_tar(path, 'w') as tar:

@@ -5,9 +5,6 @@ import torch
 from torch import nn
 
 
-PAD = '<pad>'
-
-
 class NavecEmbedding(nn.Module):
     def __init__(self, indexes, codes):
         super(NavecEmbedding, self).__init__()
@@ -24,7 +21,7 @@ class NavecEmbedding(nn.Module):
         pad_codes = np.zeros((subdim, 1, chunk))
         indexes = np.vstack([indexes, pad_indexes])
         codes = np.hstack([codes, pad_codes])
-        
+
         # same dtypes as in pq
         indexes = torch.tensor(indexes, dtype=torch.uint8)
         codes = torch.tensor(codes, dtype=torch.float32)
@@ -52,11 +49,3 @@ class NavecEmbedding(nn.Module):
         output = output.view(*shape, self.dim)  # input x dim
 
         return output
-
-
-class NavecVocab(object):
-    def __init__(self, words):
-        self.words = words + [PAD]
-
-    def __repr__(self):
-        return 'NavecVocab(words=[...])'
