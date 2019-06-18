@@ -17,7 +17,7 @@ class NavecEmbedding(nn.Module):
         self.chunk = chunk
         self.dim = subdim * chunk
 
-        # add pad, assume centroids <= 255, so that pad_indexes fits
+        # add pad, assume centroids <= 255, so that pad_indexes fit
         # into bytes
         self.pad_id = vectors
         pad_indexes = np.full((1, subdim), centroids)
