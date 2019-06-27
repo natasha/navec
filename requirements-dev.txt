@@ -1,6 +1,6 @@
 # train
 boto3==1.6.7
-corus==0.1.1
+corus==0.3.0
 
 # eval
 pymorphy2==0.8
