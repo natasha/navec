@@ -54,4 +54,14 @@ def corpus_read_(name, path):
     load = functions[name]
     records = load(path)
     for record in records:
-        yield record.text
+        text = record.text
+
+        # for malformed text like
+        # Наиболее напряженная обстановка
+        # наблюдалась
+        # в Париже, где полиции неоднократно пришлось
+        # применять водометы
+        # , слезоточивый газ и резиновые пули.
+        text = text.replace('\n', ' ')
+
+        yield text
