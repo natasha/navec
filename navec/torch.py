@@ -46,6 +46,7 @@ class NavecEmbedding(nn.Module):
         indexes = indexes.expand(-1, -1, self.chunk)  # input x subdim x chunk
 
         output = torch.gather(self.codes, 0, indexes)  # input x subdim x chunk
-        output = output.view(*shape, self.dim)  # input x dim
+        shape = shape + (self.dim,)
+        output = output.view(*shape)  # input x dim
 
         return output
