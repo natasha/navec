@@ -1,6 +1,6 @@
 
 test:
-	pytest -vv --pep8 --flakes navec
+	pytest -vv --pep8 --flakes navec --cov navec --cov-report term-missing --cov-config setup.cfg
 
 version:
 	bumpversion minor

@@ -7,3 +7,5 @@
 build
 dist
 notes
+.coverage
+coverage.xml
