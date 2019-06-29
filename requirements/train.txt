@@ -1,0 +1,3 @@
+boto3==1.6.7
+corus==0.3.0
+pqkmeans==1.0.3
