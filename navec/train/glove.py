@@ -166,13 +166,27 @@ def glove_emb(bin, cooc, vocab, output, dim, threads, iterations):
             yield line
 
 
+def load_lines(path):
+    with open(path) as file:
+        for line in file:
+            yield line.rstrip()
+
+
 def parse_glove_emb(lines):
-    vocab = []
-    weights = []
     for line in lines:
         parts = line.split()
         word, vector = parts[0], parts[1:]
         vector = [float(_) for _ in vector]
-        vocab.append(word)
+        yield word, vector
+
+
+def load_glove_emb(path):
+    lines = load_lines(path)
+    records = parse_glove_emb(lines)
+
+    words, weights = [], []
+    for word, vector in records:
+        words.append(word)
         weights.append(vector)
-    return vocab, weights
+
+    return words, weights

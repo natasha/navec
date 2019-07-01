@@ -17,7 +17,7 @@ from .cooc import (
     cooc_parse
 )
 from .emb import emb_fit
-from .quantize import quantize
+from .quant import quant_fit
 from .s3 import (
     s3_upload,
     s3_download
@@ -94,8 +94,8 @@ def main():
     #   QUANTIZE
     ########
 
-    sub = subs.add_parser('quantize')
-    sub.set_defaults(function=quantize)
+    sub = subs.add_parser('quant')
+    sub.set_defaults(function=quant_fit)
     sub.add_argument('emb')
     sub.add_argument('output')
     sub.add_argument('subdim', type=int)
