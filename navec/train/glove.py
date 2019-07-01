@@ -55,11 +55,27 @@ class Glove:
 #######
 
 
+def read_glove_vocab(path):
+    with open(path, 'rb') as file:
+        for line in file:
+            yield line
+
+
 def parse_glove_vocab(lines):
     for line in lines:
-        token, count = line.split(None, 1)
+        word, count = line.split(None, 1)
         count = int(count)
-        yield token, count
+        yield word, count
+
+
+def format_glove_vocab(records):
+    for word, count in records:
+        yield b'%s %d\n' % (word, count)
+
+
+def load_glove_vocab(path):
+    lines = read_glove_vocab(path)
+    return parse_glove_vocab(lines)
 
 
 def glove_vocab(bin, input, output, min_count=1):
@@ -90,10 +106,21 @@ def iter_read(file, size):
         yield chunk
 
 
+def read_chunks(path, size):
+    with open(path, 'rb') as file:
+        for chunk in iter_read(file, size):
+            yield chunk
+
+
 def parse_glove_cooc(stream, format=COOC_RECORD):
     for chunk in stream:
         for source, target, weight in iter_unpack(format, chunk):
             yield (source, target), weight
+
+
+def load_glove_cooc(path, size=MB, format=COOC_RECORD):
+    stream = read_chunks(path, size)
+    return parse_glove_cooc(stream, format)
 
 
 def format_glove_cooc(records, format=COOC_RECORD):
@@ -166,7 +193,7 @@ def glove_emb(bin, cooc, vocab, output, dim, threads, iterations):
             yield line
 
 
-def load_lines(path):
+def read_glove_emb(path):
     with open(path) as file:
         for line in file:
             yield line.rstrip()
@@ -181,7 +208,7 @@ def parse_glove_emb(lines):
 
 
 def load_glove_emb(path):
-    lines = load_lines(path)
+    lines = read_glove_emb(path)
     records = parse_glove_emb(lines)
 
     words, weights = [], []

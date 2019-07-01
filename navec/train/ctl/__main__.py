@@ -16,6 +16,10 @@ from .cooc import (
     cooc_shuffle,
     cooc_parse
 )
+from .merge import (
+    merge_vocabs,
+    merge_coocs
+)
 from .emb import emb_fit
 from .quant import quant_fit
 from .s3 import (
@@ -76,6 +80,21 @@ def main():
     sub = cooc.add_parser('shuffle')
     sub.set_defaults(function=cooc_shuffle)
     sub.add_argument('--memory', type=int, default=4)
+
+    #######
+    #   MERGE
+    #######
+
+    merge = subs.add_parser('merge').add_subparsers()
+
+    sub = merge.add_parser('vocabs')
+    sub.set_defaults(function=merge_vocabs)
+    sub.add_argument('paths', nargs='+')
+
+    sub = merge.add_parser('coocs')
+    sub.set_defaults(function=merge_coocs)
+    sub.add_argument('vocab')
+    sub.add_argument('pairs', nargs='+')
 
     ########
     #   EMB
