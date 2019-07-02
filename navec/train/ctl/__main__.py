@@ -2,6 +2,13 @@
 import sys
 import argparse
 
+# for py2
+try:
+    BrokenPipeError
+except NameError:
+    import socket
+    BrokenPipeError = socket.error
+
 from .corpus import (
     CORPORA,
     corpus_read
