@@ -78,6 +78,14 @@ def load_glove_vocab(path):
     return parse_glove_vocab(lines)
 
 
+def trans_glove_vocab(records):
+    words, counts = [], []
+    for word, count in records:
+        words.append(word)
+        counts.append(count)
+    return words, counts
+
+
 def glove_vocab(bin, input, output, min_count=1):
     command = [
         bin,
@@ -207,13 +215,16 @@ def parse_glove_emb(lines):
         yield word, vector
 
 
-def load_glove_emb(path):
-    lines = read_glove_emb(path)
-    records = parse_glove_emb(lines)
-
+def trans_glove_emb(records):
     words, weights = [], []
     for word, vector in records:
         words.append(word)
         weights.append(vector)
+    return words, weights
 
+
+def load_glove_emb(path):
+    lines = read_glove_emb(path)
+    records = parse_glove_emb(lines)
+    words, weights = trans_glove_emb(records)
     return words, weights

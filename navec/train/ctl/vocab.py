@@ -1,9 +1,12 @@
 
 import sys
 
+from navec.vocab import Vocab
+
 from ..glove import (
     Glove,
-    parse_glove_vocab
+    parse_glove_vocab,
+    trans_glove_vocab
 )
 from ..quantiles import get_quantiles
 
@@ -18,3 +21,10 @@ def vocab_quantile(args):
     quantiles = get_quantiles(records)
     for share, index in quantiles:
         print('%0.3f\t%d' % (share, index))
+
+
+def vocab_compress(args):
+    records = parse_glove_vocab(sys.stdin.buffer)
+    words, counts = trans_glove_vocab(records)
+    vocab = Vocab.from_glove(words, counts)
+    sys.stdout.buffer.write(vocab.as_bytes)

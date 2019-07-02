@@ -9,6 +9,8 @@ except NameError:
     import socket
     BrokenPipeError = socket.error
 
+from navec.meta import VERSION
+
 from .corpus import (
     CORPORA,
     corpus_read
@@ -16,7 +18,8 @@ from .corpus import (
 from .tokenize import tokenize
 from .vocab import (
     vocab_count,
-    vocab_quantile
+    vocab_quantile,
+    vocab_compress
 )
 from .cooc import (
     cooc_count,
@@ -28,7 +31,8 @@ from .merge import (
     merge_coocs
 )
 from .emb import emb_fit
-from .quant import quant_fit
+from .pq import pq_fit
+from .pack import pack
 from .s3 import (
     s3_upload,
     s3_download
@@ -68,6 +72,9 @@ def main():
 
     sub = vocab.add_parser('quantile')
     sub.set_defaults(function=vocab_quantile)
+
+    sub = vocab.add_parser('compress')
+    sub.set_defaults(function=vocab_compress)
 
     ########
     #   COOC
@@ -117,17 +124,27 @@ def main():
     sub.add_argument('--iterations', type=int, default=5)
 
     #########
-    #   QUANTIZE
+    #   PQ
     ########
 
-    sub = subs.add_parser('quant')
-    sub.set_defaults(function=quant_fit)
+    sub = subs.add_parser('pq')
+    sub.set_defaults(function=pq_fit)
     sub.add_argument('emb')
-    sub.add_argument('output')
     sub.add_argument('qdim', type=int)
     sub.add_argument('--centroids', type=int, default=255)  # one for pad vector
     sub.add_argument('--sample', type=int, default=10000)
     sub.add_argument('--iterations', type=int, default=50)
+
+    #########
+    #   PACK
+    ########
+
+    sub = subs.add_parser('pack')
+    sub.set_defaults(function=pack)
+    sub.add_argument('vocab')
+    sub.add_argument('pq')
+    sub.add_argument('id')
+    sub.add_argument('--version', type=int, default=VERSION)
 
     ######
     #   S3

@@ -18,3 +18,7 @@ def decompress(bytes):
     buffer = BytesIO(bytes)
     with GzipFile(mode='rb', fileobj=buffer) as file:
         return file.read()
+
+
+def gunzip_file(file):
+    return GzipFile(mode='rb', fileobj=file)

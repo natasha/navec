@@ -10,8 +10,9 @@ from os import getenv
 import numpy as np
 
 from navec import Navec
-from navec.pq import PQ
+from navec.meta import Meta
 from navec.vocab import Vocab
+from navec.pq import PQ
 
 
 CI = getenv('CI')
@@ -19,6 +20,9 @@ CI = getenv('CI')
 
 @pytest.fixture
 def emb():
+    meta = Meta(
+        id='test_1B_3k_6d_2q'
+    )
     pq = PQ(
         vectors=3,
         dim=6,
@@ -37,8 +41,11 @@ def emb():
             [[0, 0, 0], [1, 0, 0], [0, 1, 0]],
         ]).astype(np.float32),
     )
-    vocab = Vocab(['a', 'b', 'c'])
-    return Navec(vocab, pq)
+    vocab = Vocab(
+        words=['a', 'b', 'c'],
+        counts=[1, 2, 3]
+    )
+    return Navec(meta, vocab, pq)
 
 
 def test_dump_load(emb):

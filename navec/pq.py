@@ -55,7 +55,7 @@ class PQ(Record):
         return meta + indexes + codes
 
     @classmethod
-    def load(cls, file):
+    def from_file(cls, file):
         buffer = file.read(4 * 4)
         vectors, dim, qdim, centroids = np.frombuffer(buffer, np.uint32)
         buffer = file.read(vectors * qdim)
