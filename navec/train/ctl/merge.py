@@ -68,16 +68,17 @@ def load_decoded_cooc(cooc, vocab):
 
 
 def merge_coocs_(vocab, pairs):
+    vocab = load_glove_vocab(vocab)
+    ids = dict(vocab_ids(vocab))
+
     pairs = parse_pairs(pairs)
     iters = [
-        load_decoded_cooc(cooc, vocab)
-        for cooc, vocab in pairs
+        load_decoded_cooc(*_)
+        for _ in pairs
     ]
     records = merge(iters)
     records = sum_groups(records)
 
-    vocab = load_glove_vocab(vocab)
-    ids = dict(vocab_ids(vocab))
     return encode_cooc(records, ids)
 
 
