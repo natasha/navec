@@ -22,17 +22,17 @@ def emb():
     pq = PQ(
         vectors=3,
         dim=6,
-        subdim=2,
+        qdim=2,
         # 1 0 0 | 1 0 0
         # 0 1 1 | 0 0 0
         # 0 0 0 | 0 1 0
         centroids=3,
-        indexes=np.array([  # vectors x subdim
+        indexes=np.array([  # vectors x qdim
             [0, 1],
             [1, 0],
             [2, 2]
         ]).astype(np.uint8),
-        codes=np.array([  # subdim x centroids x chunk
+        codes=np.array([  # qdim x centroids x chunk
             [[1, 0, 0], [0, 1, 1], [0, 0, 0]],
             [[0, 0, 0], [1, 0, 0], [0, 1, 0]],
         ]).astype(np.float32),
