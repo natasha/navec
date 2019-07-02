@@ -1,7 +1,9 @@
 
-import gzip
-
 from .record import Record
+from .gzip import (
+    compress,
+    decompress
+)
 
 
 UNK = '<unk>'
@@ -33,12 +35,12 @@ class Vocab(Record):
     def as_bytes(self, encoding='utf8'):
         text = '\n'.join(self.words)
         bytes = text.encode(encoding)
-        return gzip.compress(bytes)
+        return compress(bytes)
 
     @classmethod
     def load(cls, file, encoding='utf8'):
         data = file.read()
-        bytes = gzip.decompress(data)
+        bytes = decompress(data)
         text = bytes.decode(encoding)
         words = text.splitlines()
         return cls(words)

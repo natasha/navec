@@ -1,10 +1,10 @@
 language: python
 python:
-  # - "2.7"
+  - "2.7"
   - "3.4"
   - "3.5"
   - "3.6"
-  # - "pypy"
+  # - "pypy"  hard to install numpy
   - "pypy3"
 script:
   - make ci
