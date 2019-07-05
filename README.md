@@ -1,9 +1,92 @@
 
-# navec
+<img src="i/logo.svg" height="75">
 
-`navec` is a library of pretrained word embeddings for russian language. It shows competitive or better results than RusVectores, loads ~10 times faster (~1 sec), takes ~10 times less space (~50Mb).
+[![Build Status](https://travis-ci.org/natasha/navec.svg?branch=master)](https://travis-ci.org/natasha/navec)
 
-> navec = huge datasets + vanila GloVe + quantization
+`navec` is a library of pretrained word embeddings for russian language. It shows competitive or better results than <a href="http://rusvectores.org">RusVectores</a>, loads ~10 times faster (~1 sec), takes ~10 times less space (~50Mb).
+
+> navec = large russian text datasets + vanila GloVe + quantization
+
+## Downloads
+
+All models share the same naming convention:
+```
+hudlit_12B_500K_300d_100q.tar
+       |    |    |    |
+       |    |    |     ---- 100 dimentions after quantization
+       |    |     --------- original vectors have 300 dimentions
+       |     -------------- vocab size is 500 000 words + 1 for <unk>
+        ------------------- dataset of 12 billion tokens was used
+```
+
+<table>
+
+<tr>
+<th>Model</th>
+<th>Description</th>
+</tr>
+
+<tr>
+<td>
+<a href="https://github.com/natasha/navec/releases/download/v0/hudlit_12B_500K_300d_100q.tar">hudlit_12B_500K_300d_100q.tar</a>
+</td>
+<td>
+Shows best results on intrinsic evaluations (see <a href="#evaluation">Evaluation</a>).
+</td>
+</tr>
+
+<tr>
+<td>
+<a href="https://github.com/natasha/navec/releases/download/v0/wiki_500M_750K_300d_100q.tar">wiki_500M_750K_300d_100q.tar</a>
+</td>
+<td>
+In case one needs large vocab.
+</td>
+</tr>
+
+<tr>
+<td>
+<a href="https://github.com/natasha/navec/releases/download/v0/news_1B_250K_300d_100q.tar">news_1B_250K_300d_100q.tar</a>
+</td>
+<td>
+In case one works with news article texts.
+</td>
+</tr>
+
+</table>
+
+## Usage
+
+First download emdeddings from <a href="#downloads">downloads</a> section.
+
+```bash
+wget https://github.com/natasha/navec/releases/download/v0/hudlit_12B_500K_300d_100q.tar
+```
+
+```python
+>>> from navec import Navec
+
+>>> path = 'hudlit_12B_500K_300d_100q.tar'
+>>> navec = Navec.load(path)
+>>> navec['навек']
+array([ 0.3955571 ,  0.11600914,  0.24605067, -0.35206917, -0.08932345,
+        0.3382279 , -0.5457616 ,  0.07472657, -0.4753835 , -0.3330848 ,
+        ...
+		
+>>> navec.sim('соль', 'сахар')
+0.6774282
+
+navec.sim('соль', 'соло')
+0.023655755
+```
+
+## Install
+
+`navec` supports Python 2.7+, 3.4+ и PyPy 3. PyPy 2 is excluded since it is hard to install `numpy` for PyPy 2.
+
+```bash
+$ pip install navec
+```
 
 ## Evaluation
 
