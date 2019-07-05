@@ -60,9 +60,10 @@ class Mean(Record):
 
 
 class Stats(Record):
-    __attributes__ = ['disk', 'ram', 'init', 'get', 'sim']
+    __attributes__ = ['vocab', 'disk', 'ram', 'init', 'get', 'sim']
 
-    def __init__(self, disk=None, ram=None, init=None, get=None, sim=None):
+    def __init__(self, vocab=None, disk=None, ram=None, init=None, get=None, sim=None):
+        self.vocab = vocab
         self.disk = disk
         self.ram = ram
 
@@ -109,6 +110,7 @@ class Scheme(Record):
     def load(self):
         time, model = timeit(self._load)
         self.stats.init.add(time)
+        self.stats.vocab = model.vocab
         self.stats.ram = model.ram
         return model
 
@@ -154,6 +156,7 @@ class NavecScheme(Scheme):
 
 class Model(object):
     ram = None
+    vocab = None
 
     def __init__(self, stats=None):
         if not stats:
@@ -184,7 +187,8 @@ class GensimModel(Model):
     def __init__(self, kv, stats=None):
         Model.__init__(self, stats)
         self.kv = kv
-        self._sim = self.kv.similarity
+        self.vocab = len(kv.index2entity)
+        self._sim = kv.similarity
 
     def __contains__(self, word):
         return word in self.kv
@@ -204,6 +208,8 @@ class GensimModel(Model):
 
 
 class GensimFasttextModel(GensimModel):
+    vocab = None
+
     @property
     def ram(self):
         kv = self.kv
@@ -221,6 +227,7 @@ class NavecModel(Model):
     def __init__(self, raw, stats=None):
         Model.__init__(self, stats)
         self.raw = raw
+        self.vocab = len(raw.vocab.words)
         self._get = raw.get
         self._sim = raw.sim
 

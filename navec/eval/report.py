@@ -1,6 +1,8 @@
 
 import pandas as pd
 
+from .dataset import CLF
+
 
 def format_mb(bytes):
     mb = bytes / 1024 / 1024
@@ -16,27 +18,130 @@ def format_mks(secs):
     return '%0.1f' % mks
 
 
+def format_vocab(value):
+    assert value < 1000000
+    # 250001 -> 250K
+    return '%dK' % int(value / 1000)
+
+
 def report_table(records, schemes, datasets):
     data = []
-    names = [_.name for _ in datasets]
     for record in records:
+        stats = record.stats
         row = [
             record.name,
-            format_sec(record.stats.init.value),
-            format_mks(record.stats.get.value),
-            format_mb(record.stats.disk),
-            format_mb(record.stats.ram)
+            stats.init.value,
+            stats.get.value,
+            stats.disk,
+            stats.ram,
+            stats.vocab
         ]
-        for name in names:
-            score = record.scores[name]
-            row.append('%0.3f | %d' % (score.value, score.support))
+        for dataset in datasets:
+            score = record.scores[dataset.name]
+            cover = score.support / len(dataset)
+            row.append([score.value, cover])
         data.append(row)
 
-    table = pd.DataFrame(
-        data,
-        columns=['model', 'init, s', 'get, µs', 'disk, mb', 'ram, mb'] + names
+    columns = (
+        ['model', 'init', 'get', 'disk', 'ram', 'vocab']
+        + [_.name for _ in datasets]
     )
+    table = pd.DataFrame(data, columns=columns)
+
     table = table.set_index('model')
-    names = [_.name for _ in schemes]
-    table = table.reindex(index=names)
+    table.index.name = None
+    table = table.reindex(index=[_.name for _ in schemes])
+
     return table
+
+
+def header_name(dataset):
+    unit = 'spear'
+    if dataset.type == CLF:
+        unit = 'prec'
+    return '%s, %s' % (dataset.name, unit)
+
+
+def format_cell(cell):
+    score, cover = cell
+    return '%0.3f/%0.2f' % (score, cover)
+
+
+def format_github_cell(cell):
+    score, cover = cell
+    return '%0.3f' % score
+
+
+def highlight(column, selection, format):
+    for value in column:
+        select = value in selection
+        value = format(value)
+        if select:
+            value = '<b>%s</b>' % value
+        yield value
+
+
+def select_max(values, count=3, key=None):
+    return sorted(values, key=key)[-count:]
+
+
+def select_min(values, count=3, key=None):
+    return sorted(values, key=key)[:count]
+
+
+def first(pair):
+    return pair[0]
+
+
+def format_report(table, datasets):
+    output = pd.DataFrame()
+
+    columns = [
+        ['init', format_sec, 'init, s'],
+        ['get', format_mks, 'get, µs'],
+        ['disk', format_mb, 'disk, mb'],
+        ['ram', format_mb, 'ram, mb'],
+    ]
+    for column, format, name in columns:
+        output[name] = table[column].map(format)
+
+    for dataset in datasets:
+        name = header_name(dataset)
+        output[name] = table[dataset.name].map(format_cell)
+
+    return output
+
+
+def format_github_report1(table):
+    output = pd.DataFrame()
+
+    columns = [
+        ['init', format_sec, select_min, 'init, s'],
+        ['get', format_mks, select_min, 'get, µs'],
+        ['disk', format_mb, select_min, 'disk, mb'],
+        ['ram', format_mb, select_min, 'ram, mb'],
+        ['vocab', format_vocab, select_max, 'vocab']
+    ]
+    for column, format, select, name in columns:
+        values = table[column].values
+        selection = select(values)
+        values = highlight(values, selection, format)
+        output[name] = list(values)
+
+    output.index = table.index
+    return output
+
+
+def format_github_report2(table, datasets):
+    output = pd.DataFrame()
+
+    for dataset in datasets:
+        column = dataset.name
+        values = table[column].values
+        selection = select_max(values, key=first)
+        values = highlight(values, selection, format_github_cell)
+        output[column] = list(values)
+
+    output = output.rename(columns={'simlex965': 'simlex'})
+    output.index = table.index
+    return output

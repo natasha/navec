@@ -7,7 +7,7 @@
 
 ## Evaluation
 
-<table border="0" class="dataframe">
+<table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
       <th></th>
@@ -15,92 +15,161 @@
       <th>get, µs</th>
       <th>disk, mb</th>
       <th>ram, mb</th>
-      <th>simlex965, spearman | support</th>
-      <th>hj, spearman</th>
-      <th>rt, prec</th>
-      <th>ae, prec</th>
-      <th>ae2, prec</th>
-      <th>lrwc, prec</th>
+      <th>vocab</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th>ruscorpora_upos_cbow_300_20_2019</th>
-      <td>12.6</td>
-      <td>4.6</td>
+      <td>11.7</td>
+      <td><b>8.3</b></td>
       <td>220.6</td>
       <td>236.1</td>
-      <td>0.359|961</td>
-      <td>0.685|378</td>
-      <td>0.852|61428</td>
-      <td>0.758|16213</td>
-      <td>0.896|49895</td>
-      <td>0.602|6234</td>
+      <td>189K</td>
     </tr>
     <tr>
       <th>ruwikiruscorpora_upos_skipgram_300_2_2019</th>
-      <td>15.9</td>
-      <td>4.5</td>
+      <td>17.4</td>
+      <td><b>5.9</b></td>
       <td>290.0</td>
       <td>309.4</td>
-      <td>0.321|961</td>
-      <td>0.723|376</td>
-      <td>0.817|66197</td>
-      <td>0.801|17067</td>
-      <td>0.860|54479</td>
-      <td>0.629|6173</td>
+      <td>248K</td>
     </tr>
     <tr>
       <th>tayga_upos_skipgram_300_2_2019</th>
-      <td>15.5</td>
-      <td>4.4</td>
+      <td>17.5</td>
+      <td><b>4.7</b></td>
       <td>290.7</td>
       <td>310.9</td>
-      <td>0.429|959</td>
-      <td>0.749|382</td>
-      <td>0.871|65091</td>
-      <td>0.771|17372</td>
-      <td>0.899|54082</td>
-      <td>0.639|6297</td>
+      <td>249K</td>
     </tr>
     <tr>
       <th>tayga_none_fasttextcbow_300_10_2019</th>
       <td>3.3</td>
-      <td>14.3</td>
+      <td>12.3</td>
       <td>910.6</td>
       <td>909.7</td>
-      <td>0.370|965</td>
-      <td>0.643|398</td>
-      <td>0.792|114066</td>
-      <td>0.695|22907</td>
-      <td>0.809|86772</td>
-      <td>0.533|10596</td>
+      <td>192K</td>
     </tr>
     <tr>
       <th>araneum_none_fasttextcbow_300_5_2018</th>
-      <td>4.5</td>
-      <td>11.1</td>
+      <td>4.4</td>
+      <td>9.5</td>
       <td>945.3</td>
       <td>926.5</td>
-      <td>0.349|965</td>
-      <td>0.670|398</td>
-      <td>0.804|114066</td>
-      <td>0.717|22910</td>
-      <td>0.796|86771</td>
-      <td>0.578|10596</td>
+      <td>195K</td>
     </tr>
     <tr>
-      <th>navec_librusec_12B_500k_300d_100q</th>
-      <td>1.0</td>
-      <td>64.7</td>
-      <td>49.5</td>
-      <td>95.3</td>
-      <td>0.309|958</td>
-      <td>0.704|390</td>
-      <td>0.842|81408</td>
-      <td>0.932|21698</td>
-      <td>0.923|71667</td>
-      <td>0.604|6733</td>
+      <th>hudlit_12B_500K_300d_100q</th>
+      <td><b>1.0</b></td>
+      <td>16.9</td>
+      <td><b>50.6</b></td>
+      <td><b>95.3</b></td>
+      <td><b>500K</b></td>
+    </tr>
+    <tr>
+      <th>wiki_500M_750K_300d_100q</th>
+      <td><b>1.7</b></td>
+      <td>20.4</td>
+      <td><b>75.3</b></td>
+      <td><b>140.4</b></td>
+      <td><b>750K</b></td>
+    </tr>
+    <tr>
+      <th>news_1B_250K_300d_100q</th>
+      <td><b>0.5</b></td>
+      <td>19.6</td>
+      <td><b>25.4</b></td>
+      <td><b>47.7</b></td>
+      <td><b>250K</b></td>
+    </tr>
+  </tbody>
+</table>
+
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>simlex</th>
+      <th>hj</th>
+      <th>rt</th>
+      <th>ae</th>
+      <th>ae2</th>
+      <th>lrwc</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>ruscorpora_upos_cbow_300_20_2019</th>
+      <td><b>0.359</b></td>
+      <td>0.685</td>
+      <td><b>0.852</b></td>
+      <td>0.758</td>
+      <td><b>0.896</b></td>
+      <td>0.602</td>
+    </tr>
+    <tr>
+      <th>ruwikiruscorpora_upos_skipgram_300_2_2019</th>
+      <td>0.321</td>
+      <td><b>0.723</b></td>
+      <td>0.817</td>
+      <td>0.801</td>
+      <td>0.860</td>
+      <td><b>0.629</b></td>
+    </tr>
+    <tr>
+      <th>tayga_upos_skipgram_300_2_2019</th>
+      <td><b>0.429</b></td>
+      <td><b>0.749</b></td>
+      <td><b>0.871</b></td>
+      <td>0.771</td>
+      <td><b>0.899</b></td>
+      <td><b>0.639</b></td>
+    </tr>
+    <tr>
+      <th>tayga_none_fasttextcbow_300_10_2019</th>
+      <td><b>0.370</b></td>
+      <td>0.643</td>
+      <td>0.792</td>
+      <td>0.695</td>
+      <td>0.809</td>
+      <td>0.533</td>
+    </tr>
+    <tr>
+      <th>araneum_none_fasttextcbow_300_5_2018</th>
+      <td>0.349</td>
+      <td>0.670</td>
+      <td>0.804</td>
+      <td>0.717</td>
+      <td>0.796</td>
+      <td>0.578</td>
+    </tr>
+    <tr>
+      <th>hudlit_12B_500K_300d_100q</th>
+      <td>0.310</td>
+      <td><b>0.707</b></td>
+      <td><b>0.842</b></td>
+      <td><b>0.931</b></td>
+      <td><b>0.923</b></td>
+      <td><b>0.604</b></td>
+    </tr>
+    <tr>
+      <th>wiki_500M_750K_300d_100q</th>
+      <td>0.225</td>
+      <td>0.543</td>
+      <td>0.735</td>
+      <td><b>0.861</b></td>
+      <td>0.831</td>
+      <td>0.579</td>
+    </tr>
+    <tr>
+      <th>news_1B_250K_300d_100q</th>
+      <td>0.230</td>
+      <td>0.590</td>
+      <td>0.784</td>
+      <td><b>0.866</b></td>
+      <td>0.861</td>
+      <td>0.589</td>
     </tr>
   </tbody>
 </table>

@@ -28,6 +28,9 @@ class Dataset(Record):
         self.pairs = pairs
         self.tagged = tagged
 
+    def __len__(self):
+        return len(self.pairs)
+
 
 ########
 #
