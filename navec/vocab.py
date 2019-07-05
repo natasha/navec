@@ -11,11 +11,6 @@ from .gzip import (
 UNK = '<unk>'
 
 
-def parse_lines(lines, encoding='utf8'):
-    for line in lines:
-        yield line.decode(encoding).rstrip('\n')
-
-
 class Vocab(Record):
     __attributes__ = ['words', 'counts']
 
@@ -42,25 +37,38 @@ class Vocab(Record):
         printer.text(repr(self))
 
     @classmethod
-    def from_glove(cls, words, counts, encoding='utf8'):
+    def from_glove(cls, words, counts):
         # for some reason glove vocab may have words with broken
         # unicode
-        words = [_.decode(encoding, errors='ignore') for _ in words]
+        words = [_.decode('utf8', errors='ignore') for _ in words]
+
+        # emb has unk in the end
+        words.append(UNK)
+        counts.append(0)
+
         return cls(words, counts)
 
     @property
-    def as_bytes(self, encoding='utf8'):
-        meta = [len(self.words)]
+    def as_glove(self):
+        for word, count in zip(self.words, self.counts):
+            if word == UNK:
+                continue
+            word = word.encode('utf8')
+            yield word, count
+
+    @property
+    def as_bytes(self):
+        meta = [len(self.counts)]
         meta = np.array(meta).astype(np.uint32).tobytes()
 
         words = '\n'.join(self.words)
-        words = words.encode(encoding)
+        words = words.encode('utf8')
 
         counts = np.array(self.counts, dtype=np.uint32).tobytes()
         return compress(meta + counts + words)
 
     @classmethod
-    def from_file(cls, file, encoding='utf8'):
+    def from_file(cls, file):
         file = gunzip_file(file)
 
         buffer = file.read(4)
@@ -69,5 +77,7 @@ class Vocab(Record):
         buffer = file.read(4 * size)
         counts = np.frombuffer(buffer, np.uint32).tolist()
 
-        words = list(parse_lines(file))
+        text = file.read().decode('utf8')
+        words = text.splitlines()
+
         return cls(words, counts)

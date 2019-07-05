@@ -19,7 +19,8 @@ from .tokenize import tokenize
 from .vocab import (
     vocab_count,
     vocab_quantile,
-    vocab_compress
+    vocab_pack,
+    vocab_unpack,
 )
 from .cooc import (
     cooc_count,
@@ -73,8 +74,11 @@ def main():
     sub = vocab.add_parser('quantile')
     sub.set_defaults(function=vocab_quantile)
 
-    sub = vocab.add_parser('compress')
-    sub.set_defaults(function=vocab_compress)
+    sub = vocab.add_parser('pack')
+    sub.set_defaults(function=vocab_pack)
+
+    sub = vocab.add_parser('unpack')
+    sub.set_defaults(function=vocab_unpack)
 
     ########
     #   COOC
