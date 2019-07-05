@@ -129,7 +129,6 @@ def main():
 
     sub = subs.add_parser('pq')
     sub.set_defaults(function=pq_fit)
-    sub.add_argument('emb')
     sub.add_argument('qdim', type=int)
     sub.add_argument('--centroids', type=int, default=255)  # one for pad vector
     sub.add_argument('--sample', type=int, default=10000)
