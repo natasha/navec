@@ -11,6 +11,11 @@ from navec.record import Record
 from navec import Navec
 
 
+W2V = 'w2v'
+FASTTEXT = 'fasttext'
+NAVEC = 'navec'
+
+
 #########
 #
 #    UTILS
@@ -90,6 +95,7 @@ class Stats(Record):
 class Scheme(Record):
     __attributes__ = ['name', 'path', 'stats']
 
+    type = None
     tagged = False
 
     def __init__(self, name, path, stats=None):
@@ -116,6 +122,7 @@ class Scheme(Record):
 
 
 class RusvectoresScheme(Scheme):
+    type = W2V
     tagged = True
 
     def _load(self):
@@ -124,6 +131,7 @@ class RusvectoresScheme(Scheme):
 
 
 class RusvectoresFasttextScheme(RusvectoresScheme):
+    type = FASTTEXT
     tagged = False
 
     @property
@@ -142,6 +150,8 @@ class RusvectoresFasttextScheme(RusvectoresScheme):
 
 
 class NavecScheme(Scheme):
+    type = NAVEC
+
     def _load(self):
         raw = Navec.load(self.path)
         return NavecModel(raw, self.stats)

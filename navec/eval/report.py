@@ -25,11 +25,17 @@ def format_vocab(value):
 
 
 def report_table(records, schemes, datasets):
+    mapping = {
+        _.name: _
+        for _ in records
+    }
     data = []
-    for record in records:
+    for scheme in schemes:
+        record = mapping[scheme.name]
         stats = record.stats
         row = [
             record.name,
+            scheme.type,
             stats.init.value,
             stats.get.value,
             stats.disk,
@@ -43,14 +49,13 @@ def report_table(records, schemes, datasets):
         data.append(row)
 
     columns = (
-        ['model', 'init', 'get', 'disk', 'ram', 'vocab']
+        ['model', 'type', 'init', 'get', 'disk', 'ram', 'vocab']
         + [_.name for _ in datasets]
     )
     table = pd.DataFrame(data, columns=columns)
 
     table = table.set_index('model')
-    table.index.name = None
-    table = table.reindex(index=[_.name for _ in schemes])
+    table.index.name = None  # no extra row in html
 
     return table
 
@@ -95,6 +100,7 @@ def first(pair):
 
 def format_report(table, datasets):
     output = pd.DataFrame()
+    output['type'] = table['type']
 
     columns = [
         ['init', format_sec, 'init, s'],
@@ -114,6 +120,7 @@ def format_report(table, datasets):
 
 def format_github_report1(table):
     output = pd.DataFrame()
+    output['type'] = table['type']
 
     columns = [
         ['init', format_sec, select_min, 'init, s'],
@@ -128,12 +135,12 @@ def format_github_report1(table):
         values = highlight(values, selection, format)
         output[name] = list(values)
 
-    output.index = table.index
     return output
 
 
 def format_github_report2(table, datasets):
     output = pd.DataFrame()
+    output['type'] = table['type']
 
     for dataset in datasets:
         column = dataset.name
@@ -143,5 +150,4 @@ def format_github_report2(table, datasets):
         output[column] = list(values)
 
     output = output.rename(columns={'simlex965': 'simlex'})
-    output.index = table.index
     return output
