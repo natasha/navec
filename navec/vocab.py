@@ -21,6 +21,7 @@ class Vocab(Record):
             word: id
             for id, word in enumerate(self.words)
         }
+        self.unk_id = self.word_ids.get(UNK)  # .get for tests
 
     def __getitem__(self, word):
         return self.word_ids[word]
