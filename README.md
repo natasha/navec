@@ -31,33 +31,33 @@ Currently two models are published:
 
 <tr>
 <td>
-  <a href="/natasha/navec/releases/download/v0/hudlit_12B_500K_300d_100q.tar"><code>hudlit_12B_500K_300d_100q.tar</code></a>
+  <a href="//github.com/natasha/navec/releases/download/v0/hudlit_12B_500K_300d_100q.tar"><code>hudlit_12B_500K_300d_100q.tar</code></a>
 </td>
 <td>50Mb</td>
 <td>
   Should be used by default. Shows best results on <a href="#evaluation">intrinsic evaluations</a>. Model was trained on large corpus of russian literature (~150Gb).
 </td>
 <td>
-  <a href="/natasha/corus#load_librusec"><code>librusec</code></a>
+  <a href="//github.com/natasha/corus#load_librusec"><code>librusec</code></a>
 </td>
 </tr>
 
 <tr>
 <td>
-<a href="/natasha/navec/releases/download/v0/news_1B_250K_300d_100q.tar"><code>news_1B_250K_300d_100q.tar</code></a>
+<a href="//github.com/natasha/navec/releases/download/v0/news_1B_250K_300d_100q.tar"><code>news_1B_250K_300d_100q.tar</code></a>
 </td>
 <td>25Mb</td>
 <td>
   Try to use this model to news texts. It is two times smaller than `hudlit` but covers same 98% of words in news articles.
 </td>
 <td>
-  <a href="/natasha/corus#load_lenta"><code>lenta</code></a>
-  <a href="/natasha/corus#load_ria"><code>ria</code></a>
-  <a href="/natasha/corus#load_taiga_fontanka"><code>taiga_fontanka</code></a>
-  <a href="/natasha/corus#load_buriy_news"><code>buriy_news</code></a>
-  <a href="/natasha/corus#load_buriy_webhose"><code>buriy_webhose</code></a>
-  <a href="/natasha/corus#load_ods_gazeta"><code>ods_gazeta</code></a>
-  <a href="/natasha/corus#load_ods_interfax"><code>ods_interfax</code></a>
+  <a href="//github.com/natasha/corus#load_lenta"><code>lenta</code></a>
+  <a href="//github.com/natasha/corus#load_ria"><code>ria</code></a>
+  <a href="//github.com/natasha/corus#load_taiga_fontanka"><code>taiga_fontanka</code></a>
+  <a href="//github.com/natasha/corus#load_buriy_news"><code>buriy_news</code></a>
+  <a href="//github.com/natasha/corus#load_buriy_webhose"><code>buriy_webhose</code></a>
+  <a href="//github.com/natasha/corus#load_ods_gazeta"><code>ods_gazeta</code></a>
+  <a href="//github.com/natasha/corus#load_ods_interfax"><code>ods_interfax</code></a>
 </td>
 </tr>
 
