@@ -1,12 +1,11 @@
 
 <img src="i/logo.svg" height="85">
+
 [![Build Status](https://travis-ci.org/natasha/navec.svg?branch=master)](https://travis-ci.org/natasha/navec) [![Coverage Status](https://coveralls.io/repos/github/natasha/navec/badge.svg?branch=master)](https://coveralls.io/github/natasha/navec?branch=master)
 
 `navec` is a library of pretrained word embeddings for russian language. It shows competitive or better results than <a href="http://rusvectores.org">RusVectores</a>, loads ~10 times faster (~1 sec), takes ~10 times less space (~50Mb).
 
->
 > Navec = large russian text datasets + vanila GloVe + quantization
->
 
 ## Downloads
 
@@ -32,33 +31,33 @@ Currently two models are published:
 
 <tr>
 <td>
-  <a href="//natasha/navec/releases/download/v0/hudlit_12B_500K_300d_100q.tar"><code>hudlit_12B_500K_300d_100q.tar</code></a>
+  <a href="/natasha/navec/releases/download/v0/hudlit_12B_500K_300d_100q.tar"><code>hudlit_12B_500K_300d_100q.tar</code></a>
 </td>
 <td>50Mb</td>
 <td>
   Should be used by default. Shows best results on <a href="#evaluation">intrinsic evaluations</a>. Model was trained on large corpus of russian literature (~150Gb).
 </td>
 <td>
-  <a href="//natasha/corus#load_librusec"><code>librusec</code></a>
+  <a href="/natasha/corus#load_librusec"><code>librusec</code></a>
 </td>
 </tr>
 
 <tr>
 <td>
-<a href="//natasha/navec/releases/download/v0/news_1B_250K_300d_100q.tar"><code>news_1B_250K_300d_100q.tar</code></a>
+<a href="/natasha/navec/releases/download/v0/news_1B_250K_300d_100q.tar"><code>news_1B_250K_300d_100q.tar</code></a>
 </td>
 <td>25Mb</td>
 <td>
   Try to use this model to news texts. It is two times smaller than `hudlit` but covers same 98% of words in news articles.
 </td>
 <td>
-  <a href="//natasha/corus#load_lenta"><code>lenta</code></a>
-  <a href="//natasha/corus#load_ria"><code>ria</code></a>
-  <a href="//natasha/corus#load_taiga_fontanka"><code>taiga_fontanka</code></a>
-  <a href="//natasha/corus#load_buriy_news"><code>buriy_news</code></a>
-  <a href="//natasha/corus#load_buriy_webhose"><code>buriy_webhose</code></a>
-  <a href="//natasha/corus#load_ods_gazeta"><code>ods_gazeta</code></a>
-  <a href="//natasha/corus#load_ods_interfax"><code>ods_interfax</code></a>
+  <a href="/natasha/corus#load_lenta"><code>lenta</code></a>
+  <a href="/natasha/corus#load_ria"><code>ria</code></a>
+  <a href="/natasha/corus#load_taiga_fontanka"><code>taiga_fontanka</code></a>
+  <a href="/natasha/corus#load_buriy_news"><code>buriy_news</code></a>
+  <a href="/natasha/corus#load_buriy_webhose"><code>buriy_webhose</code></a>
+  <a href="/natasha/corus#load_ods_gazeta"><code>ods_gazeta</code></a>
+  <a href="/natasha/corus#load_ods_interfax"><code>ods_interfax</code></a>
 </td>
 </tr>
 
@@ -79,7 +78,7 @@ First download `hudlit` emdeddings (see the table above):
 wget https://github.com/natasha/navec/releases/download/v0/hudlit_12B_500K_300d_100q.tar
 ```
 
-Load with `Navec.load`, it takes ~1s and ~100Mb of RAM:
+Load tar-archive with `Navec.load`, it takes ~1s and ~100Mb of RAM:
 ```python
 >>> from navec import Navec
 
@@ -101,7 +100,7 @@ False
 None
 ```
 
-`navec` has built in support for PyTorch. `as_torch` property returns `torch.nn.Module` that can be used as `torch.nn.Embeddings`
+`navec` has built-in support for PyTorch. `as_torch` property returns `torch.nn.Module` that can be used as `torch.nn.Embeddings`
 ```python
 >>> import torch
 
@@ -335,9 +334,11 @@ git push --tags
 make clean wheel upload
 ```
 
+Notice! All commands belows use code from `navec/train`, it is not under CI, it works only with python3, it is expected user is familiar with source code. We use Yandex.Cloud EC2 and S3.
+
 Create remote worker
 
-To compute cooc (large HDD, 1Tb for librusec). We use instance from Yandex.Cloud
+To compute cooc (large HDD, 1Tb for librusec).
 ```bash
 yc compute instance create \
     --name worker \
@@ -408,8 +409,6 @@ export S3_SECRET=XXxxx_XXXXXXxxxxxxXXXXxxXXx-XxxXXxxxX
 export S3_BUCKET=XXXXXXX
 export GLOVE_DIR=~/path/to/glove/build
 ```
-
-Notice! All commands belows use code from navec/train, it is not under CI, it works only with python3, it expects user is familiar with source code.
 
 Share text data (see corus)
 ```bash
