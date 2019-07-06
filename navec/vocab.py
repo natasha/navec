@@ -29,6 +29,11 @@ class Vocab(Record):
     def __contains__(self, word):
         return word in self.word_ids
 
+    def get(self, word, default=None):
+        if word in self:
+            return self[word]
+        return default
+
     def __repr__(self):
         return '{name}(words=[...], counts=[...])'.format(
             name=self.__class__.__name__
