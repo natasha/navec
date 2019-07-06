@@ -1,15 +1,16 @@
 
-<img src="i/logo.svg" height="75">
-
-[![Build Status](https://travis-ci.org/natasha/navec.svg?branch=master)](https://travis-ci.org/natasha/navec)
+<img src="i/logo.svg" height="85">
+[![Build Status](https://travis-ci.org/natasha/navec.svg?branch=master)](https://travis-ci.org/natasha/navec) [![Coverage Status](https://coveralls.io/repos/github/natasha/navec/badge.svg?branch=master)](https://coveralls.io/github/natasha/navec?branch=master)
 
 `navec` is a library of pretrained word embeddings for russian language. It shows competitive or better results than <a href="http://rusvectores.org">RusVectores</a>, loads ~10 times faster (~1 sec), takes ~10 times less space (~50Mb).
 
-> navec = large russian text datasets + vanila GloVe + quantization
+>
+> Navec = large russian text datasets + vanila GloVe + quantization
+>
 
 ## Downloads
 
-All models share the same naming convention:
+How to read model filename:
 ```
 hudlit_12B_500K_300d_100q.tar
        |    |    |    |
@@ -19,66 +20,49 @@ hudlit_12B_500K_300d_100q.tar
         ------------------- dataset of 12 billion tokens was used
 ```
 
+Currently two models are published:
 <table>
 
 <tr>
 <th>Model</th>
+<th>Size</th>
 <th>Description</th>
+<th>Sources</th>
 </tr>
 
 <tr>
 <td>
-<a href="https://github.com/natasha/navec/releases/download/v0/hudlit_12B_500K_300d_100q.tar">hudlit_12B_500K_300d_100q.tar</a>
+  <a href="//natasha/navec/releases/download/v0/hudlit_12B_500K_300d_100q.tar"><code>hudlit_12B_500K_300d_100q.tar</code></a>
+</td>
+<td>50Mb</td>
+<td>
+  Should be used by default. Shows best results on <a href="#evaluation">intrinsic evaluations</a>. Model was trained on large corpus of russian literature (~150Gb).
 </td>
 <td>
-Shows best results on intrinsic evaluations (see <a href="#evaluation">Evaluation</a>).
-</td>
-</tr>
-
-<tr>
-<td>
-<a href="https://github.com/natasha/navec/releases/download/v0/wiki_500M_750K_300d_100q.tar">wiki_500M_750K_300d_100q.tar</a>
-</td>
-<td>
-In case one needs large vocab.
+  <a href="//natasha/corus#load_librusec"><code>librusec</code></a>
 </td>
 </tr>
 
 <tr>
 <td>
-<a href="https://github.com/natasha/navec/releases/download/v0/news_1B_250K_300d_100q.tar">news_1B_250K_300d_100q.tar</a>
+<a href="//natasha/navec/releases/download/v0/news_1B_250K_300d_100q.tar"><code>news_1B_250K_300d_100q.tar</code></a>
+</td>
+<td>25Mb</td>
+<td>
+  Try to use this model to news texts. It is two times smaller than `hudlit` but covers same 98% of words in news articles.
 </td>
 <td>
-In case one works with news article texts.
+  <a href="//natasha/corus#load_lenta"><code>lenta</code></a>
+  <a href="//natasha/corus#load_ria"><code>ria</code></a>
+  <a href="//natasha/corus#load_taiga_fontanka"><code>taiga_fontanka</code></a>
+  <a href="//natasha/corus#load_buriy_news"><code>buriy_news</code></a>
+  <a href="//natasha/corus#load_buriy_webhose"><code>buriy_webhose</code></a>
+  <a href="//natasha/corus#load_ods_gazeta"><code>ods_gazeta</code></a>
+  <a href="//natasha/corus#load_ods_interfax"><code>ods_interfax</code></a>
 </td>
 </tr>
 
 </table>
-
-## Usage
-
-First download emdeddings from <a href="#downloads">downloads</a> section.
-
-```bash
-wget https://github.com/natasha/navec/releases/download/v0/hudlit_12B_500K_300d_100q.tar
-```
-
-```python
->>> from navec import Navec
-
->>> path = 'hudlit_12B_500K_300d_100q.tar'
->>> navec = Navec.load(path)
->>> navec['навек']
-array([ 0.3955571 ,  0.11600914,  0.24605067, -0.35206917, -0.08932345,
-        0.3382279 , -0.5457616 ,  0.07472657, -0.4753835 , -0.3330848 ,
-        ...
-		
->>> navec.sim('соль', 'сахар')
-0.6774282
-
-navec.sim('соль', 'соло')
-0.023655755
-```
 
 ## Install
 
@@ -88,12 +72,86 @@ navec.sim('соль', 'соло')
 $ pip install navec
 ```
 
+## Usage
+
+First download `hudlit` emdeddings (see the table above):
+```bash
+wget https://github.com/natasha/navec/releases/download/v0/hudlit_12B_500K_300d_100q.tar
+```
+
+Load with `Navec.load`, it takes ~1s and ~100Mb of RAM:
+```python
+>>> from navec import Navec
+
+>>> path = 'hudlit_12B_500K_300d_100q.tar'
+>>> navec = Navec.load(path)
+```
+
+Then `navec` can be used as a dict object:
+```python
+>>> navec['навек']
+array([ 0.3955571 ,  0.11600914,  0.24605067, -0.35206917, -0.08932345,
+        0.3382279 , -0.5457616 ,  0.07472657, -0.4753835 , -0.3330848 ,
+        ...
+
+>>> 'нааавееек' in navec
+False
+
+>>> navec.get('нааавееек')
+None
+```
+
+`navec` has built in support for PyTorch. `as_torch` property returns `torch.nn.Module` that can be used as `torch.nn.Embeddings`
+```python
+>>> import torch
+
+>>> module = navec.as_torch
+>>> input = torch.tensor([1, 2, 3])
+>>> emb = module(input)
+>>> emb
+tensor([[ 4.5801e-02,  8.6986e-01, -1.6292e-01,  7.4754e-02,  1.9809e-01,
+         -3.5679e-01, -2.7921e-01,  2.6684e-01,  2.3908e-01,  1.4012e-01,
+          4.3170e-02, -3.5350e-02, -3.5594e-01,  1.3268e-01,  1.3822e-01,
+         ...
+
+>>> emb.shape
+torch.Size([3, 300])
+
+>>> input = torch.tensor([[module.pad_id]])  # batch size 1 of pad ids
+>>> emb = module(input)
+>>> emb
+tensor([[[0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+          0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+          ...
+          
+>>> emb.shape
+torch.Size([1, 1, 300])
+```
+
+To get an index of word, use `navec.vocab`:
+```python
+>>> navec.vocab['навек']
+225823
+
+>>> navec.vocab.get('наааавеeeк', navec.vocab.unk_id)
+500000   # == navec.vocab['<unk>']
+```
+
 ## Evaluation
+
+Let's compore Navec to top 5 RusVectores models (based on `simlex` and `hj` eval datasets). In each column top 3 results are highlighted.
+
+* `init` — time it takes to load model file to RAM. `tayga_upos_skipgram_300_2_2019` word2vec binary file takes 14.5 seconds to load with `gensim.KeyedVectors.load_word2vec_format`. `tayga_none_fasttextcbow_300_10_2019` fastText large 910.6Mb file takes 3.4 seconds. Navec `hudlit` with vocab 2 times larger than previous two takes 1 second.
+* `get` — time is takes to query embedding vector for a single word. Word2vec models win here, to fetch a vector they basically do `dict.get`. FastText and Navec for every query do extra computation. FastText extracts and sums word ngrams, Navec unpacks vector from quantization table. In practice query to embeddings table is small compared to all other computation in network.
+* `disk` — model file size. It is convenient for deployment and distribution to have small models. Notice that `hudlit` model is 4-20 times smaller with vocab size 2 times bigger.
+* `ram` — space model takes in RAM after loading. It is convenient to have small memory footprint to fit more computation on single server.
+* `vocab` — number of words in vocab, number of embedding vectors. Since Navec vectors table takes less space we can have larger vocab. With 500K vocab `hudlit` model has ~2% OVV rate on average.
 
 <table border="0" class="dataframe">
   <thead>
     <tr style="text-align: right;">
       <th></th>
+      <th>type</th>
       <th>init, s</th>
       <th>get, µs</th>
       <th>disk, mb</th>
@@ -104,64 +162,63 @@ $ pip install navec
   <tbody>
     <tr>
       <th>ruscorpora_upos_cbow_300_20_2019</th>
-      <td>11.7</td>
-      <td><b>8.3</b></td>
-      <td>220.6</td>
-      <td>236.1</td>
+      <td>w2v</td>
+      <td>11.9</td>
+      <td><b>5.1</b></td>
+      <td><b>220.6</b></td>
+      <td><b>236.1</b></td>
       <td>189K</td>
     </tr>
     <tr>
       <th>ruwikiruscorpora_upos_skipgram_300_2_2019</th>
-      <td>17.4</td>
-      <td><b>5.9</b></td>
+      <td>w2v</td>
+      <td>19.7</td>
+      <td><b>5.0</b></td>
       <td>290.0</td>
       <td>309.4</td>
       <td>248K</td>
     </tr>
     <tr>
       <th>tayga_upos_skipgram_300_2_2019</th>
-      <td>17.5</td>
-      <td><b>4.7</b></td>
+      <td>w2v</td>
+      <td>20.5</td>
+      <td><b>6.6</b></td>
       <td>290.7</td>
       <td>310.9</td>
-      <td>249K</td>
+      <td><b>249K</b></td>
     </tr>
     <tr>
       <th>tayga_none_fasttextcbow_300_10_2019</th>
-      <td>3.3</td>
-      <td>12.3</td>
+      <td>fasttext</td>
+      <td><b>3.7</b></td>
+      <td>16.3</td>
       <td>910.6</td>
       <td>909.7</td>
       <td>192K</td>
     </tr>
     <tr>
       <th>araneum_none_fasttextcbow_300_5_2018</th>
-      <td>4.4</td>
-      <td>9.5</td>
+      <td>fasttext</td>
+      <td>5.9</td>
+      <td>12.6</td>
       <td>945.3</td>
       <td>926.5</td>
       <td>195K</td>
     </tr>
     <tr>
       <th>hudlit_12B_500K_300d_100q</th>
-      <td><b>1.0</b></td>
-      <td>16.9</td>
+      <td>navec</td>
+      <td><b>1.5</b></td>
+      <td>22.1</td>
       <td><b>50.6</b></td>
       <td><b>95.3</b></td>
       <td><b>500K</b></td>
     </tr>
     <tr>
-      <th>wiki_500M_750K_300d_100q</th>
-      <td><b>1.7</b></td>
-      <td>20.4</td>
-      <td><b>75.3</b></td>
-      <td><b>140.4</b></td>
-      <td><b>750K</b></td>
-    </tr>
-    <tr>
       <th>news_1B_250K_300d_100q</th>
-      <td><b>0.5</b></td>
-      <td>19.6</td>
+      <td>navec</td>
+      <td><b>0.7</b></td>
+      <td>18.5</td>
       <td><b>25.4</b></td>
       <td><b>47.7</b></td>
       <td><b>250K</b></td>
@@ -169,10 +226,17 @@ $ pip install navec
   </tbody>
 </table>
 
+Now let's look at intrinsic evaluation scores. Navec `hudlit` model does not show best results on all datasets but it is usually in top 3. We'll use 6 datasets, they are all available in <a href="data/eval">data/eval</a>:
+
+* `simlex965`, `hj` — two small datasets (965 and 398 tests respectively) used by RusVectores, see the <a href="https://arxiv.org/abs/1801.06407">their paper</a> for more info. Metric is spearman correlation, other datasets use average precision.
+* `rt`, `ae`, `ae2` — large datasets (114066, 22919, 86772 tests) from RUSSE workshop, see <a href="https://russe.nlpub.org/downloads/">the description</a> for more.
+* `lrwc` — relatively new dataset by Yandex.Toloka, see <a href="https://research.yandex.com/datasets/toloka">their page</a>.
+
 <table border="0" class="dataframe">
   <thead>
     <tr style="text-align: right;">
       <th></th>
+      <th>type</th>
       <th>simlex</th>
       <th>hj</th>
       <th>rt</th>
@@ -184,6 +248,7 @@ $ pip install navec
   <tbody>
     <tr>
       <th>ruscorpora_upos_cbow_300_20_2019</th>
+      <td>w2v</td>
       <td><b>0.359</b></td>
       <td>0.685</td>
       <td><b>0.852</b></td>
@@ -193,15 +258,17 @@ $ pip install navec
     </tr>
     <tr>
       <th>ruwikiruscorpora_upos_skipgram_300_2_2019</th>
+      <td>w2v</td>
       <td>0.321</td>
       <td><b>0.723</b></td>
       <td>0.817</td>
-      <td>0.801</td>
+      <td><b>0.801</b></td>
       <td>0.860</td>
       <td><b>0.629</b></td>
     </tr>
     <tr>
       <th>tayga_upos_skipgram_300_2_2019</th>
+      <td>w2v</td>
       <td><b>0.429</b></td>
       <td><b>0.749</b></td>
       <td><b>0.871</b></td>
@@ -211,6 +278,7 @@ $ pip install navec
     </tr>
     <tr>
       <th>tayga_none_fasttextcbow_300_10_2019</th>
+      <td>fasttext</td>
       <td><b>0.370</b></td>
       <td>0.643</td>
       <td>0.792</td>
@@ -220,6 +288,7 @@ $ pip install navec
     </tr>
     <tr>
       <th>araneum_none_fasttextcbow_300_5_2018</th>
+      <td>fasttext</td>
       <td>0.349</td>
       <td>0.670</td>
       <td>0.804</td>
@@ -229,6 +298,7 @@ $ pip install navec
     </tr>
     <tr>
       <th>hudlit_12B_500K_300d_100q</th>
+      <td>navec</td>
       <td>0.310</td>
       <td><b>0.707</b></td>
       <td><b>0.842</b></td>
@@ -237,16 +307,8 @@ $ pip install navec
       <td><b>0.604</b></td>
     </tr>
     <tr>
-      <th>wiki_500M_750K_300d_100q</th>
-      <td>0.225</td>
-      <td>0.543</td>
-      <td>0.735</td>
-      <td><b>0.861</b></td>
-      <td>0.831</td>
-      <td>0.579</td>
-    </tr>
-    <tr>
       <th>news_1B_250K_300d_100q</th>
+      <td>navec</td>
       <td>0.230</td>
       <td>0.590</td>
       <td>0.784</td>
