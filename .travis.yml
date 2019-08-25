@@ -5,7 +5,7 @@ python:
   - "3.5"
   - "3.6"
   # - "pypy"  hard to install numpy
-  - "pypy3"
+  # - "pypy3"  failed to install gensim
 script:
   - make ci
 after_success:
