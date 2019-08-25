@@ -15,6 +15,16 @@ class Meta(Record):
         self.id = id
         self.version = version
 
+    def check_compat(self):
+        if self.version != VERSION:
+            raise ValueError(
+                'Trying to load version %d, '
+                'only version %d is supported' % (
+                    self.version,
+                    VERSION
+                )
+            )
+
     @property
     def as_json(self):
         return OrderedDict([

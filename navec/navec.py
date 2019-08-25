@@ -1,13 +1,6 @@
 
-from .tar import (
-    open_tar,
-    write_tar,
-    load_tar
-)
-from .meta import (
-    Meta,
-    VERSION
-)
+from .tar import Tar, DumpTar
+from .meta import Meta
 from .vocab import Vocab
 from .pq import PQ
 from .record import Record
@@ -53,29 +46,22 @@ class Navec(Record):
         return model
 
     def dump(self, path):
-        with open_tar(path, 'w') as tar:
-            write_tar(tar, self.meta.as_bytes, META)
-            write_tar(tar, self.vocab.as_bytes, VOCAB)
-            write_tar(tar, self.pq.as_bytes, PQ_)
+        with DumpTar(path) as tar:
+            tar.dump(self.meta.as_bytes, META)
+            tar.dump(self.vocab.as_bytes, VOCAB)
+            tar.dump(self.pq.as_bytes, PQ_)
 
     @classmethod
     def load(cls, path):
-        with open_tar(path) as tar:
-            file = load_tar(tar, META)
+        with Tar(path) as tar:
+            file = tar.load(META)
             meta = Meta.from_file(file)
-            if meta.version != VERSION:
-                raise ValueError(
-                    'Trying to load version %d, '
-                    'only version %d is supported' % (
-                        meta.version,
-                        VERSION
-                    )
-                )
+            meta.check_compat()
 
-            file = load_tar(tar, VOCAB)
+            file = tar.load(VOCAB)
             vocab = Vocab.from_file(file)
 
-            file = load_tar(tar, PQ_)
+            file = tar.load(PQ_)
             pq = PQ.from_file(file)
 
             return cls(meta, vocab, pq)
