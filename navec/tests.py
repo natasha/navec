@@ -67,7 +67,6 @@ def test_sim(emb):
     assert emb.sim('a', 'b') == 0.
 
 
-@pytest.mark.skipif(CI, reason='gensim + scipy are heavy')
 def test_gensim(emb):
     model = emb.as_gensim
     assert model.most_similar('a') == [

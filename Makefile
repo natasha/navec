@@ -3,7 +3,7 @@ test:
 	pytest -vv --pep8 --flakes navec --cov navec --cov-report term-missing --cov-config setup.cfg
 
 ci:
-	CI=1 pytest -vv --pep8 --flakes navec --cov navec --cov-report xml --cov-config setup.cfg
+	pytest -vv --pep8 --flakes navec --cov navec --cov-report xml --cov-config setup.cfg
 
 version:
 	bumpversion minor
