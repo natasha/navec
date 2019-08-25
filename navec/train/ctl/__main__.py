@@ -9,8 +9,6 @@ except NameError:
     import socket
     BrokenPipeError = socket.error
 
-from navec.meta import VERSION
-
 from .corpus import (
     CORPORA,
     corpus_read
@@ -147,7 +145,6 @@ def main():
     sub.add_argument('vocab')
     sub.add_argument('pq')
     sub.add_argument('id')
-    sub.add_argument('--version', type=int, default=VERSION)
 
     ######
     #   S3

@@ -5,38 +5,32 @@ from collections import OrderedDict
 from .record import Record
 
 
-VERSION = 1
+PROTOCOL = 1
 
 
 class Meta(Record):
-    __attributes__ = ['id', 'version']
+    __attributes__ = ['id', 'protocol']
 
-    def __init__(self, id=None, version=VERSION):
+    def __init__(self, id, protocol=PROTOCOL):
         self.id = id
-        self.version = version
+        self.protocol = protocol
 
-    def check_compat(self):
-        if self.version != VERSION:
-            raise ValueError(
-                'Trying to load version %d, '
-                'only version %d is supported' % (
-                    self.version,
-                    VERSION
-                )
-            )
+    def check_protocol(self):
+        if self.protocol != PROTOCOL:
+            raise ValueError('Expected protocol=%d, got %d' % (PROTOCOL, self.protocol))
 
     @property
     def as_json(self):
         return OrderedDict([
             ('id', self.id),
-            ('version', self.version)
+            ('protocol', self.protocol)
         ])
 
     @classmethod
     def from_json(cls, data):
         return cls(
             id=data['id'],
-            version=data['version']
+            protocol=data['protocol']
         )
 
     @property

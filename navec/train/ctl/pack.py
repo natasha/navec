@@ -10,22 +10,16 @@ from ..log import log_info
 def pack(args):
     pack_(
         args.vocab, args.pq,
-        args.id, args.version
+        args.id
     )
-
-
-TAR = '.tar'
 
 
 def open_bin(path):
     return open(path, 'rb')
 
 
-def pack_(vocab, pq, id, version):
-    meta = Meta(
-        id=id,
-        version=version
-    )
+def pack_(vocab, pq, id):
+    meta = Meta(id)
 
     with open_bin(vocab) as file:
         vocab = Vocab.from_file(file)
@@ -33,6 +27,6 @@ def pack_(vocab, pq, id, version):
     with open_bin(pq) as file:
         pq = PQ.from_file(file)
 
-    path = id + TAR
+    path = 'navec_%s.tar' % id
     log_info('Dumping %s', path)
     Navec(meta, vocab, pq).dump(path)

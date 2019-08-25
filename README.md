@@ -11,12 +11,12 @@
 
 How to read model filename:
 ```
-hudlit_12B_500K_300d_100q.tar
-       |    |    |    |
-       |    |    |     ---- 100 dimentions after quantization
-       |    |     --------- original vectors have 300 dimentions
-       |     -------------- vocab size is 500 000 words + 1 for <unk>
-        ------------------- dataset of 12 billion tokens was used
+navec_hudlit_v1_12B_500K_300d_100q.tar
+                 |    |    |    |
+                 |    |    |     ---- 100 dimentions after quantization
+                 |    |     --------- original vectors have 300 dimentions
+                 |     -------------- vocab size is 500 000 words + 1 for <unk>
+                  ------------------- dataset of 12 billion tokens was used
 ```
 
 Currently two models are published:
@@ -31,20 +31,20 @@ Currently two models are published:
 
 <tr>
 <td>
-  <a href="//github.com/natasha/navec/releases/download/v0/hudlit_12B_500K_300d_100q.tar"><code>hudlit_12B_500K_300d_100q.tar</code></a>
+  <a href="https://github.com/natasha/navec/releases/download/v0.0.0/navec_hudlit_v1_12B_500K_300d_100q.tar"><code>navec_hudlit_v1_12B_500K_300d_100q.tar</code></a>
 </td>
 <td>50Mb</td>
 <td>
   Should be used by default. Shows best results on <a href="#evaluation">intrinsic evaluations</a>. Model was trained on large corpus of russian literature (~150Gb).
 </td>
 <td>
-  <a href="//github.com/natasha/corus#load_librusec"><code>librusec</code></a>
+  <a href="https://github.com/natasha/corus#load_librusec"><code>librusec</code></a>
 </td>
 </tr>
 
 <tr>
 <td>
-<a href="//github.com/natasha/navec/releases/download/v0/news_1B_250K_300d_100q.tar"><code>news_1B_250K_300d_100q.tar</code></a>
+<a href="https://github.com/natasha/navec/releases/download/v0.0.0/navec_news_v1_1B_250K_300d_100q.tar"><code>navec_news_v1_1B_250K_300d_100q.tar</code></a>
 </td>
 <td>25Mb</td>
 <td>
@@ -75,7 +75,7 @@ $ pip install navec
 
 First download `hudlit` emdeddings (see the table above):
 ```bash
-wget https://github.com/natasha/navec/releases/download/v0/hudlit_12B_500K_300d_100q.tar
+wget https://github.com/natasha/navec/releases/download/v0.0.0/navec_hudlit_v1_12B_500K_300d_100q.tar
 ```
 
 Load tar-archive with `Navec.load`, it takes ~1s and ~100Mb of RAM:
@@ -610,27 +610,20 @@ Pack
 navec-train s3 download librusec_pq.bin pq.bin
 navec-train s3 download librusec_vocab.txt vocab.txt
 
-navec-train s3 download wiki_pq.bin pq.bin
-navec-train s3 download wiki_vocab.txt vocab.txt
-
 navec-train s3 download news_pq.bin pq.bin
 navec-train s3 download news_vocab.txt vocab.txt
 
 navec-train vocab pack < vocab.txt > vocab.bin
 
-navec-train pack vocab.bin pq.bin librusec_12B_500K_300d_100q
-navec-train s3 upload librusec_12B_500K_300d_100q.tar packs/hudlit_12B_500K_300d_100q.tar
+navec-train pack vocab.bin pq.bin hudlit_v1_12B_500K_300d_100q
+navec-train s3 upload navec_hudlit_v1_12B_500K_300d_100q.tar packs/navec_hudlit_v1_12B_500K_300d_100q.tar
 
-navec-train pack vocab.bin pq.bin wiki_500M_750K_300d_100q
-navec-train s3 upload wiki_500M_750K_300d_100q.tar packs/wiki_500M_750K_300d_100q.tar
-
-navec-train pack vocab.bin pq.bin news_1B_250K_300d_100q
-navec-train s3 upload news_1B_250K_300d_100q.tar packs/news_1B_250K_300d_100q.tar
+navec-train pack vocab.bin pq.bin news_v1_1B_250K_300d_100q
+navec-train s3 upload navec_news_v1_1B_250K_300d_100q.tar packs/navec_news_v1_1B_250K_300d_100q.tar
 ```
 
 Publish
 ```
-navec-train s3 download packs/hudlit_12B_500K_300d_100q.tar
-navec-train s3 download packs/wiki_500M_750K_300d_100q.tar
-navec-train s3 download packs/news_1B_250K_300d_100q.tar
+navec-train s3 download packs/navec_hudlit_v1_12B_500K_300d_100q.tar
+navec-train s3 download packs/navec_news_v1_1B_250K_300d_100q.tar
 ```
