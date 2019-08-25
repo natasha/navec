@@ -52,15 +52,6 @@ class Navec(Record):
         model.add(self.vocab.words, weights)
         return model
 
-    @property
-    def as_torch(self):
-        from .torch import NavecEmbedding
-
-        return NavecEmbedding(
-            self.pq.indexes,
-            self.pq.codes
-        )
-
     def dump(self, path):
         with open_tar(path, 'w') as tar:
             write_tar(tar, self.meta.as_bytes, META)

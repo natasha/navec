@@ -100,33 +100,6 @@ False
 None
 ```
 
-`navec` has built-in support for PyTorch. `as_torch` property returns `torch.nn.Module` that can be used as `torch.nn.Embeddings`
-```python
->>> import torch
-
->>> module = navec.as_torch
->>> input = torch.tensor([1, 2, 3])
->>> emb = module(input)
->>> emb
-tensor([[ 4.5801e-02,  8.6986e-01, -1.6292e-01,  7.4754e-02,  1.9809e-01,
-         -3.5679e-01, -2.7921e-01,  2.6684e-01,  2.3908e-01,  1.4012e-01,
-          4.3170e-02, -3.5350e-02, -3.5594e-01,  1.3268e-01,  1.3822e-01,
-         ...
-
->>> emb.shape
-torch.Size([3, 300])
-
->>> input = torch.tensor([[module.pad_id]])  # batch size 1 of pad ids
->>> emb = module(input)
->>> emb
-tensor([[[0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
-          0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
-          ...
-          
->>> emb.shape
-torch.Size([1, 1, 300])
-```
-
 To get an index of word, use `navec.vocab`:
 ```python
 >>> navec.vocab['навек']

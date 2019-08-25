@@ -76,21 +76,6 @@ def test_gensim(emb):
     ]
 
 
-@pytest.mark.skipif(CI, reason='No torch for pypy, torch package is heavy')
-def test_torch(emb):
-    import torch
-
-    model = emb.as_torch
-    input = torch.tensor([[0, 1]]).long()
-    assert torch.all(torch.eq(
-        model(input),
-        torch.tensor([[
-            [1., 0., 0., 1., 0., 0.],
-            [0., 1., 1., 0., 0., 0.]
-        ]])
-    ))
-
-
 def test_gzip():
     # check python versions return use same compression
     from .gzip import compress, decompress
