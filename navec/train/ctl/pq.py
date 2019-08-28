@@ -1,8 +1,7 @@
 
 import sys
 
-from navec.pq import quantize
-
+from ..pq import quantize
 from ..glove import (
     parse_glove_emb,
     trans_glove_emb
