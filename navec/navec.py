@@ -62,7 +62,7 @@ class Navec(Record):
         with Tar(path) as tar:
             file = tar.load(META)
             meta = Meta.from_file(file)
-            meta.check_protocol()
+            Meta.check_protocol(meta.protocol)
 
             file = tar.load(VOCAB)
             vocab = Vocab.from_file(file)

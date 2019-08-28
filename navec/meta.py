@@ -5,19 +5,14 @@ from collections import OrderedDict
 from .record import Record
 
 
-PROTOCOL = 1
-
-
 class Meta(Record):
     __attributes__ = ['id', 'protocol']
+
+    PROTOCOL = 1
 
     def __init__(self, id, protocol=PROTOCOL):
         self.id = id
         self.protocol = protocol
-
-    def check_protocol(self):
-        if self.protocol != PROTOCOL:
-            raise ValueError('Expected protocol=%d, got %d' % (PROTOCOL, self.protocol))
 
     @property
     def as_json(self):
@@ -27,10 +22,17 @@ class Meta(Record):
         ])
 
     @classmethod
+    def check_protocol(cls, protocol):
+        if protocol != cls.PROTOCOL:
+            raise ValueError('Expected protocol=%d, got %d' % (cls.PROTOCOL, protocol))
+
+    @classmethod
     def from_json(cls, data):
+        protocol = data.get('protocol')
+        cls.check_protocol(protocol)
         return cls(
             id=data['id'],
-            protocol=data['protocol']
+            protocol=protocol
         )
 
     @property
