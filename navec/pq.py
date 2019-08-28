@@ -46,6 +46,14 @@ class PQ(Record):
         parts = self.codes[self.qdims, self.indexes]
         return parts.reshape(self.vectors, self.dim)
 
+    def sampled(self, ids):
+        vectors = len(ids)
+        indexes = self.indexes[ids]
+        return PQ(
+            vectors, self.dim, self.qdim, self.centroids,
+            indexes, self.codes
+        )
+
     @property
     def as_bytes(self):
         meta = self.vectors, self.dim, self.qdim, self.centroids

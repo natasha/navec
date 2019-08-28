@@ -34,6 +34,24 @@ class Vocab(Record):
             return self[word]
         return default
 
+    def count(self, word):
+        return self.counts[self.word_ids[word]]
+
+    def top(self, count=None):
+        return sorted(
+            self.words,
+            key=self.count,
+            reverse=True
+        )[:count]
+
+    def sampled(self, words):
+        words = list(words)
+        counts = [
+            self.counts[self.word_ids[_]]
+            for _ in words
+        ]
+        return Vocab(words, counts)
+
     def __repr__(self):
         return '{name}(words=[...], counts=[...])'.format(
             name=self.__class__.__name__

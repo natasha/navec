@@ -19,11 +19,6 @@ class Navec(Record):
         self.vocab = vocab
         self.pq = pq
 
-    def sim(self, a, b):
-        a = self.vocab[a]
-        b = self.vocab[b]
-        return self.pq.sim(a, b)
-
     def __getitem__(self, word):
         id = self.vocab[word]
         return self.pq[id]
@@ -36,6 +31,11 @@ class Navec(Record):
             return self[word]
         return default
 
+    def sim(self, a, b):
+        a = self.vocab[a]
+        b = self.vocab[b]
+        return self.pq.sim(a, b)
+
     @property
     def as_gensim(self):
         from gensim.models import KeyedVectors
@@ -44,6 +44,12 @@ class Navec(Record):
         weights = self.pq.unpack()  # warning! memory heavy
         model.add(self.vocab.words, weights)
         return model
+
+    def sampled(self, words):
+        ids = [self.vocab[_] for _ in words]
+        vocab = self.vocab.sampled(words)
+        pq = self.pq.sampled(ids)
+        return Navec(self.meta, vocab, pq)
 
     def dump(self, path):
         with DumpTar(path) as tar:

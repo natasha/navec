@@ -2,20 +2,15 @@
 
 from __future__ import absolute_import, unicode_literals
 
-import pytest
-
 from tempfile import NamedTemporaryFile
-from os import getenv
 
 import numpy as np
+import pytest
 
 from navec import Navec
 from navec.meta import Meta
 from navec.vocab import Vocab
 from navec.pq import PQ
-
-
-CI = getenv('CI')
 
 
 @pytest.fixture
@@ -83,3 +78,11 @@ def test_gzip():
     data = b'\x1f\x8b\x08\x00\x00\x00\x00\x00\x02\xff\xbb\xb0\xf7\xc2\x86\x0b\x9b.l\xbd\xb0\x0b\x00\xfd\xa4\xac\x14\n\x00\x00\x00'
     assert compress(bytes) == data
     assert decompress(data) == bytes
+
+
+def test_top(emb):
+    words = emb.vocab.top(2)
+    sample = emb.sampled(words)
+    assert len(sample.pq.indexes) == 2
+    assert sample.sim('b', 'c') == emb.sim('b', 'c')
+    assert sample.vocab.get('a') is None
