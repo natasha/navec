@@ -1,9 +1,9 @@
 
-<img src="i/logo.svg" height="85">
+<img src="https://github.com/natasha/natasha-logos/blob/master/navec.svg">
 
 [![Build Status](https://travis-ci.org/natasha/navec.svg?branch=master)](https://travis-ci.org/natasha/navec) [![Coverage Status](https://coveralls.io/repos/github/natasha/navec/badge.svg?branch=master)](https://coveralls.io/github/natasha/navec?branch=master)
 
-`navec` is a library of pretrained word embeddings for russian language. It shows competitive or better results than <a href="http://rusvectores.org">RusVectores</a>, loads ~10 times faster (~1 sec), takes ~10 times less space (~50Mb).
+`navec` is a library of pretrained word embeddings for russian language. It shows competitive or better results than <a href="http://rusvectores.org">RusVectores</a>, loads ~10 times faster (~1 sec), takes ~10 times less space (~50 MB).
 
 > Navec = large russian text datasets + vanila GloVe + quantization
 
@@ -31,11 +31,11 @@ Currently two models are published:
 
 <tr>
 <td>
-  <a href="https://github.com/natasha/navec/releases/download/v0.0.0/navec_hudlit_v1_12B_500K_300d_100q.tar"><code>navec_hudlit_v1_12B_500K_300d_100q.tar</code></a>
+  <a href="https://github.com/natasha/navec/releases/download/v0.0.0/navec_hudlit_v1_12B_500K_300d_100q.tar">navec_hudlit_v1_12B_500K_300d_100q.tar</a>
 </td>
-<td>50Mb</td>
+<td>50MB</td>
 <td>
-  Should be used by default. Shows best results on <a href="#evaluation">intrinsic evaluations</a>. Model was trained on large corpus of russian literature (~150Gb).
+  Should be used by default. Shows best results on <a href="#evaluation">intrinsic evaluations</a>. Model was trained on large corpus of russian literature (~150GB).
 </td>
 <td>
   <a href="https://github.com/natasha/corus#load_librusec"><code>librusec</code></a>
@@ -44,9 +44,9 @@ Currently two models are published:
 
 <tr>
 <td>
-<a href="https://github.com/natasha/navec/releases/download/v0.0.0/navec_news_v1_1B_250K_300d_100q.tar"><code>navec_news_v1_1B_250K_300d_100q.tar</code></a>
+<a href="https://github.com/natasha/navec/releases/download/v0.0.0/navec_news_v1_1B_250K_300d_100q.tar">navec_news_v1_1B_250K_300d_100q.tar</a>
 </td>
-<td>25Mb</td>
+<td>25MB</td>
 <td>
   Try to use this model to news texts. It is two times smaller than `hudlit` but covers same 98% of words in news articles.
 </td>
@@ -78,7 +78,7 @@ First download `hudlit` emdeddings (see the table above):
 wget https://github.com/natasha/navec/releases/download/v0.0.0/navec_hudlit_v1_12B_500K_300d_100q.tar
 ```
 
-Load tar-archive with `Navec.load`, it takes ~1s and ~100Mb of RAM:
+Load tar-archive with `Navec.load`, it takes ~1s and ~100MB of RAM:
 ```python
 >>> from navec import Navec
 
@@ -113,7 +113,7 @@ To get an index of word, use `navec.vocab`:
 
 Let's compore Navec to top 5 RusVectores models (based on `simlex` and `hj` eval datasets). In each column top 3 results are highlighted.
 
-* `init` — time it takes to load model file to RAM. `tayga_upos_skipgram_300_2_2019` word2vec binary file takes 14.5 seconds to load with `gensim.KeyedVectors.load_word2vec_format`. `tayga_none_fasttextcbow_300_10_2019` fastText large 910.6Mb file takes 3.4 seconds. Navec `hudlit` with vocab 2 times larger than previous two takes 1 second.
+* `init` — time it takes to load model file to RAM. `tayga_upos_skipgram_300_2_2019` word2vec binary file takes 14.5 seconds to load with `gensim.KeyedVectors.load_word2vec_format`. `tayga_none_fasttextcbow_300_10_2019` fastText large 910.6 MB file takes 3.4 seconds. Navec `hudlit` with vocab 2 times larger than previous two takes 1 second.
 * `get` — time is takes to query embedding vector for a single word. Word2vec models win here, to fetch a vector they basically do `dict.get`. FastText and Navec for every query do extra computation. FastText extracts and sums word ngrams, Navec unpacks vector from quantization table. In practice query to embeddings table is small compared to all other computation in network.
 * `disk` — model file size. It is convenient for deployment and distribution to have small models. Notice that `hudlit` model is 4-20 times smaller with vocab size 2 times bigger.
 * `ram` — space model takes in RAM after loading. It is convenient to have small memory footprint to fit more computation on single server.
@@ -290,6 +290,15 @@ Now let's look at intrinsic evaluation scores. Navec `hudlit` model does not sho
     </tr>
   </tbody>
 </table>
+
+## License
+
+Source code of `navec` is distributed under MIT license (allows modification and commercial usage)
+
+## Support
+
+- Chat — https://telegram.me/natural_language_processing
+- Issues — https://github.com/natasha/navec/issues
 
 ## Development
 
