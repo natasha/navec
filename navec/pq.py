@@ -55,6 +55,10 @@ class PQ(Record):
         )
 
     @property
+    def shape(self):
+        return self.vectors, self.dim
+
+    @property
     def as_bytes(self):
         meta = self.vectors, self.dim, self.qdim, self.centroids
         meta = np.array(meta).astype(np.uint32).tobytes()
