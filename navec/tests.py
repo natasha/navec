@@ -86,3 +86,7 @@ def test_top(emb):
     assert len(sample.pq.indexes) == 2
     assert sample.sim('b', 'c') == emb.sim('b', 'c')
     assert sample.vocab.get('a') is None
+
+
+def test_shape(emb):
+    assert emb.pq.shape == (emb.pq.vectors, emb.pq.dim)
