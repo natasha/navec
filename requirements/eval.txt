@@ -1,5 +1,0 @@
-pymorphy2==0.8
-gensim==3.7.1
-scipy==0.19.0
-sklearn==0.0
-pandas==0.20.2
