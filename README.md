@@ -198,7 +198,7 @@ Let's compore Navec to top 5 RusVectores models (based on `simlex` and `hj` eval
   </tbody>
 </table>
 
-Now let's look at intrinsic evaluation scores. Navec `hudlit` model does not show best results on all datasets but it is usually in top 3. We'll use 6 datasets, they are all available in <a href="data/eval">data/eval</a>:
+Now let's look at intrinsic evaluation scores. Navec `hudlit` model does not show best results on all datasets but it is usually in top 3. We'll use 6 datasets:
 
 * `simlex965`, `hj` — two small datasets (965 and 398 tests respectively) used by RusVectores, see the <a href="https://arxiv.org/abs/1801.06407">their paper</a> for more info. Metric is spearman correlation, other datasets use average precision.
 * `rt`, `ae`, `ae2` — large datasets (114066, 22919, 86772 tests) from RUSSE workshop, see <a href="https://russe.nlpub.org/downloads/">the description</a> for more.
