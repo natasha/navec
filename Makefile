@@ -1,9 +1,9 @@
 
 test:
-	pytest -vv --pep8 --flakes navec --cov navec --cov-report term-missing --cov-config setup.cfg
-
-ci:
-	pytest -vv --pep8 --flakes navec --cov navec --cov-report xml --cov-config setup.cfg
+	pytest -vv \
+		--pep8 --flakes navec \
+		--cov-report term-missing --cov-report xml \
+		--cov-config setup.cfg --cov navec 
 
 version:
 	bumpversion minor
@@ -15,5 +15,10 @@ upload:
 	twine upload dist/*
 
 clean:
-	find navec -name '*.pyc' -not -path '*/__pycache__/*' -o -name '.DS_Store*' | xargs rm
-	rm -rf dist build *.egg-info
+	find . \
+		-name '*.pyc' \
+		-o -name __pycache__ \
+		-o -name .DS_Store \
+		| xargs rm -rf
+	rm -rf dist/ build/ .ipynb_checkpoints/ .pytest_cache/ .cache/ \
+		*.egg-info .coverage coverage.xml
