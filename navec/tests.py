@@ -1,6 +1,3 @@
-# encoding: utf8
-
-from __future__ import absolute_import, unicode_literals
 
 from tempfile import NamedTemporaryFile
 
@@ -68,16 +65,6 @@ def test_gensim(emb):
         ('b', 0.),
         ('c', 0.)
     ]
-
-
-def test_gzip():
-    # check python versions return use same compression
-    from .gzip import compress, decompress
-
-    bytes = 'навек'.encode('utf8')
-    data = b'\x1f\x8b\x08\x00\x00\x00\x00\x00\x02\xff\xbb\xb0\xf7\xc2\x86\x0b\x9b.l\xbd\xb0\x0b\x00\xfd\xa4\xac\x14\n\x00\x00\x00'
-    assert compress(bytes) == data
-    assert decompress(data) == bytes
 
 
 def test_top(emb):

@@ -1,11 +1,12 @@
 
+from gzip import (
+    compress,
+    GzipFile
+)
+
 import numpy as np
 
 from .record import Record
-from .gzip import (
-    compress,
-    gunzip_file
-)
 
 
 UNK = '<unk>'
@@ -93,7 +94,7 @@ class Vocab(Record):
 
     @classmethod
     def from_file(cls, file):
-        file = gunzip_file(file)
+        file = GzipFile(mode='rb', fileobj=file)
 
         buffer = file.read(4)
         size, = np.frombuffer(buffer, np.uint32)
