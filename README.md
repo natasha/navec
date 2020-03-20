@@ -1,7 +1,7 @@
 
 <img src="https://github.com/natasha/natasha-logos/blob/master/navec.svg">
 
-[![Build Status](https://travis-ci.org/natasha/navec.svg?branch=master)](https://travis-ci.org/natasha/navec) [![Coverage Status](https://coveralls.io/repos/github/natasha/navec/badge.svg?branch=master)](https://coveralls.io/github/natasha/navec?branch=master)
+![CI](https://github.com/natasha/navec/workflows/CI/badge.svg) [![codecov](https://codecov.io/gh/natasha/navec/branch/master/graph/badge.svg)](https://codecov.io/gh/natasha/navec)
 
 `navec` is a library of pretrained word embeddings for russian language. It shows competitive or better results than <a href="http://rusvectores.org">RusVectores</a>, loads ~10 times faster (~1 sec), takes ~10 times less space (~50 MB).
 
@@ -63,9 +63,9 @@ Currently two models are published:
 
 </table>
 
-## Install
+## Installation
 
-`navec` supports Python 2.7+, 3.4+ и PyPy 3. PyPy 2 is excluded since it is hard to install `numpy` for PyPy 2.
+`navec` supports Pyton 3.5+ and PyPy 3.
 
 ```bash
 $ pip install navec
@@ -135,8 +135,8 @@ Let's compore Navec to top 5 RusVectores models (based on `simlex` and `hj` eval
     <tr>
       <th>ruscorpora_upos_cbow_300_20_2019</th>
       <td>w2v</td>
-      <td>11.9</td>
-      <td><b>5.1</b></td>
+      <td>12.1</td>
+      <td><b>1.6</b></td>
       <td><b>220.6</b></td>
       <td><b>236.1</b></td>
       <td>189K</td>
@@ -144,8 +144,8 @@ Let's compore Navec to top 5 RusVectores models (based on `simlex` and `hj` eval
     <tr>
       <th>ruwikiruscorpora_upos_skipgram_300_2_2019</th>
       <td>w2v</td>
-      <td>19.7</td>
-      <td><b>5.0</b></td>
+      <td>15.7</td>
+      <td><b>1.7</b></td>
       <td>290.0</td>
       <td>309.4</td>
       <td>248K</td>
@@ -153,8 +153,8 @@ Let's compore Navec to top 5 RusVectores models (based on `simlex` and `hj` eval
     <tr>
       <th>tayga_upos_skipgram_300_2_2019</th>
       <td>w2v</td>
-      <td>20.5</td>
-      <td><b>6.6</b></td>
+      <td>15.7</td>
+      <td><b>1.2</b></td>
       <td>290.7</td>
       <td>310.9</td>
       <td><b>249K</b></td>
@@ -162,26 +162,26 @@ Let's compore Navec to top 5 RusVectores models (based on `simlex` and `hj` eval
     <tr>
       <th>tayga_none_fasttextcbow_300_10_2019</th>
       <td>fasttext</td>
-      <td><b>3.7</b></td>
-      <td>16.3</td>
-      <td>910.6</td>
-      <td>909.7</td>
+      <td>11.3</td>
+      <td>14.3</td>
+      <td>2741.9</td>
+      <td>2746.9</td>
       <td>192K</td>
     </tr>
     <tr>
       <th>araneum_none_fasttextcbow_300_5_2018</th>
       <td>fasttext</td>
-      <td>5.9</td>
-      <td>12.6</td>
-      <td>945.3</td>
-      <td>926.5</td>
+      <td><b>7.8</b></td>
+      <td>15.4</td>
+      <td>2752.1</td>
+      <td>2754.7</td>
       <td>195K</td>
     </tr>
     <tr>
       <th>hudlit_12B_500K_300d_100q</th>
       <td>navec</td>
-      <td><b>1.5</b></td>
-      <td>22.1</td>
+      <td><b>1.0</b></td>
+      <td>19.9</td>
       <td><b>50.6</b></td>
       <td><b>95.3</b></td>
       <td><b>500K</b></td>
@@ -189,8 +189,8 @@ Let's compore Navec to top 5 RusVectores models (based on `simlex` and `hj` eval
     <tr>
       <th>news_1B_250K_300d_100q</th>
       <td>navec</td>
-      <td><b>0.7</b></td>
-      <td>18.5</td>
+      <td><b>0.5</b></td>
+      <td>20.3</td>
       <td><b>25.4</b></td>
       <td><b>47.7</b></td>
       <td><b>250K</b></td>
@@ -251,22 +251,22 @@ Now let's look at intrinsic evaluation scores. Navec `hudlit` model does not sho
     <tr>
       <th>tayga_none_fasttextcbow_300_10_2019</th>
       <td>fasttext</td>
-      <td><b>0.370</b></td>
-      <td>0.643</td>
-      <td>0.792</td>
-      <td>0.695</td>
-      <td>0.809</td>
-      <td>0.533</td>
+      <td><b>0.369</b></td>
+      <td>0.639</td>
+      <td>0.793</td>
+      <td>0.682</td>
+      <td>0.813</td>
+      <td>0.536</td>
     </tr>
     <tr>
       <th>araneum_none_fasttextcbow_300_5_2018</th>
       <td>fasttext</td>
       <td>0.349</td>
-      <td>0.670</td>
-      <td>0.804</td>
-      <td>0.717</td>
-      <td>0.796</td>
-      <td>0.578</td>
+      <td>0.671</td>
+      <td>0.801</td>
+      <td>0.706</td>
+      <td>0.793</td>
+      <td>0.579</td>
     </tr>
     <tr>
       <th>hudlit_12B_500K_300d_100q</th>
@@ -291,10 +291,6 @@ Now let's look at intrinsic evaluation scores. Navec `hudlit` model does not sho
   </tbody>
 </table>
 
-## License
-
-Source code of `navec` is distributed under MIT license (allows modification and commercial usage)
-
 ## Support
 
 - Chat — https://telegram.me/natural_language_processing
@@ -303,11 +299,13 @@ Source code of `navec` is distributed under MIT license (allows modification and
 ## Development
 
 Test
+
 ```bash
 make test
 ```
 
-Package:
+Package
+
 ```bash
 make version
 git push
@@ -316,7 +314,7 @@ git push --tags
 make clean wheel upload
 ```
 
-Notice! All commands belows use code from `navec/train`, it is not under CI, it works only with python3, it is expected user is familiar with source code. We use Yandex.Cloud EC2 and S3.
+Notice! All commands belows use code from `navec/train`, it is not under CI, it works only with Python 3, it is expected user is familiar with source code. We use Yandex Cloud Compute and Object Storage.
 
 Create remote worker
 
