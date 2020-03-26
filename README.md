@@ -112,7 +112,7 @@ To get an index of word, use `navec.vocab`:
 ## Evaluation
 <a name="evalualtion"></a>
 
-Let's compore Navec to top 5 RusVectores models (based on <a href="">`simlex` and `hj` eval datasets). In each column top 3 results are highlighted.
+Let's compore Navec to top 5 RusVectores models (based on <a href="https://github.com/natasha/corus#load_simlex">`simlex`</a> and <a href="https://github.com/natasha/corus#load_russe_hj">`hj`</a> eval datasets). In each column top 3 results are highlighted.
 
 * `init` — time it takes to load model file to RAM. `tayga_upos_skipgram_300_2_2019` word2vec binary file takes 15.7 seconds to load with `gensim.KeyedVectors.load_word2vec_format`. `tayga_none_fasttextcbow_300_10_2019` fastText large ~2.7 GB file takes 11.3 seconds. Navec `hudlit` with vocab 2 times larger than previous two takes 1 second.
 * `get` — time is takes to query embedding vector for a single word. Word2vec models win here, to fetch a vector they basically do `dict.get`. FastText and Navec for every query do extra computation. FastText extracts and sums word ngrams, Navec unpacks vector from quantization table. In practice query to embeddings table is small compared to all other computation in network.
