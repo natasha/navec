@@ -1,3 +1,0 @@
--r requirements/common.txt
--r requirements/optional.txt
--r requirements/test.txt
