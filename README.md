@@ -110,7 +110,6 @@ To get an index of word, use `navec.vocab`:
 ```
 
 ## Evaluation
-<a name="evalualtion"></a>
 
 Let's compore Navec to top 5 RusVectores models (based on <a href="https://github.com/natasha/corus#load_simlex">`simlex`</a> and <a href="https://github.com/natasha/corus#load_russe_hj">`hj`</a> eval datasets). In each column top 3 results are highlighted.
 
