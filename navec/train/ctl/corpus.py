@@ -29,12 +29,6 @@ CORPORA = [
 
 
 def corpus_read(args):
-    texts = corpus_read_(args.name, args.path)
-    for text in texts:
-        print(text)
-
-
-def corpus_read_(name, path):
     import corus
 
     functions = {
@@ -51,8 +45,8 @@ def corpus_read_(name, path):
         ODS_GAZETA: corus.load_ods_gazeta,
         ODS_INTERFAX: corus.load_ods_interfax
     }
-    load = functions[name]
-    records = load(path)
+    load = functions[args.name]
+    records = load(args.path)
     for record in records:
         text = record.text
 
@@ -64,4 +58,4 @@ def corpus_read_(name, path):
         # , слезоточивый газ и резиновые пули.
         text = text.replace('\n', ' ')
 
-        yield text
+        print(text)

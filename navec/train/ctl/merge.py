@@ -17,19 +17,26 @@ from ..glove import (
 
 
 def merge_vocabs(args):
-    records = merge_vocabs_(args.paths)
+    iters = [load_glove_vocab(_) for _ in args.paths]
+    records = merge(iters)
+    records = sum_groups(records)
     lines = format_glove_vocab(records)
     sys.stdout.buffer.writelines(lines)
 
 
-def merge_vocabs_(paths):
-    iters = [load_glove_vocab(_) for _ in paths]
-    records = merge(iters)
-    return sum_groups(records)
-
-
 def merge_coocs(args):
-    records = merge_coocs_(args.vocab, args.pairs)
+    vocab = load_glove_vocab(args.vocab)
+    ids = dict(vocab_ids(vocab))
+
+    pairs = parse_pairs(args.pairs)
+    iters = [
+        load_decoded_cooc(*_)
+        for _ in pairs
+    ]
+    records = merge(iters)
+    records = sum_groups(records)
+
+    records = encode_cooc(records, ids)
     stream = format_glove_cooc(records)
     sys.stdout.buffer.writelines(stream)
 
@@ -65,21 +72,6 @@ def load_decoded_cooc(cooc, vocab):
     vocab = load_glove_vocab(vocab)
     words = list(vocab_words(vocab))
     return decode_cooc(records, words)
-
-
-def merge_coocs_(vocab, pairs):
-    vocab = load_glove_vocab(vocab)
-    ids = dict(vocab_ids(vocab))
-
-    pairs = parse_pairs(pairs)
-    iters = [
-        load_decoded_cooc(*_)
-        for _ in pairs
-    ]
-    records = merge(iters)
-    records = sum_groups(records)
-
-    return encode_cooc(records, ids)
 
 
 ##########
