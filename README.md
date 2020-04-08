@@ -109,6 +109,17 @@ To get an index of word, use `navec.vocab`:
 500000   # == navec.vocab['<unk>']
 ```
 
+There are two special words in vocab, `<unk>` and `<pad>`:
+```python
+>>> navec['<unk>']
+array([ 3.69125791e-02,  9.32818875e-02,  2.01917738e-02, ...
+
+>>> navec['<pad>']
+array([0., 0., 0., 0., 0., 0., ...
+
+```
+
+
 ## Evaluation
 
 Let's compore Navec to top 5 RusVectores models (based on <a href="https://github.com/natasha/corus#load_simlex">`simlex`</a> and <a href="https://github.com/natasha/corus#load_russe_hj">`hj`</a> eval datasets). In each column top 3 results are highlighted.
@@ -605,11 +616,13 @@ navec-train s3 download news_emb.txt emb.txt
 
 # Search for best compression that has still ok score
 for i in 150 100 75 60 50;
-	do pv emb.txt | navec-train pq $i --sample 100000 --iterations 15 > pq_${i}q.bin;
+	do pv emb.txt | navec-train pq fit $i --sample 100000 --iterations 15 > pq_${i}q.bin;
 done
 
 # 100 is <1% worse on eval but much lighter
-pv emb.txt | navec-train pq 100 --sample 100000 --iterations 20 > pq.bin
+pv emb.txt | navec-train pq fit 100 --sample 100000 --iterations 20 > pq.bin
+
+navec-train pq pad < pq.bin > t; mv t pq.bin
 
 navec-train s3 upload pq.bin librusec_pq.bin
 navec-train s3 upload pq.bin wiki_pq.bin

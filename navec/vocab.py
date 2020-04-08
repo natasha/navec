@@ -10,6 +10,7 @@ from .record import Record
 
 
 UNK = '<unk>'
+PAD = '<pad>'
 
 
 class Vocab(Record):
@@ -22,7 +23,8 @@ class Vocab(Record):
             word: id
             for id, word in enumerate(self.words)
         }
-        self.unk_id = self.word_ids.get(UNK)  # .get for tests
+        self.unk_id = self.word_ids.get(UNK)
+        self.pad_id = self.word_ids.get(PAD)
 
     def __getitem__(self, word):
         return self.word_ids[word]
@@ -68,15 +70,16 @@ class Vocab(Record):
         words = [_.decode('utf8', errors='ignore') for _ in words]
 
         # emb has unk in the end
-        words.append(UNK)
-        counts.append(0)
+        for word in (UNK, PAD):
+            words.append(word)
+            counts.append(0)
 
         return cls(words, counts)
 
     @property
     def as_glove(self):
         for word, count in zip(self.words, self.counts):
-            if word == UNK:
+            if word in (UNK, PAD):
                 continue
             word = word.encode('utf8')
             yield word, count

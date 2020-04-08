@@ -30,7 +30,10 @@ from .merge import (
     merge_coocs
 )
 from .emb import emb_fit
-from .pq import pq_fit
+from .pq import (
+    pq_fit,
+    pq_pad
+)
 from .pack import pack
 from .s3 import (
     s3_upload,
@@ -129,12 +132,17 @@ def main():
     #   PQ
     ########
 
-    sub = subs.add_parser('pq')
+    pq = subs.add_parser('pq').add_subparsers()
+
+    sub = pq.add_parser('fit')
     sub.set_defaults(function=pq_fit)
     sub.add_argument('qdim', type=int)
     sub.add_argument('--centroids', type=int, default=255)  # one for pad vector
     sub.add_argument('--sample', type=int, default=10000)
     sub.add_argument('--iterations', type=int, default=50)
+
+    sub = pq.add_parser('pad')
+    sub.set_defaults(function=pq_pad)
 
     #########
     #   PACK
