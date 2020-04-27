@@ -31,7 +31,7 @@ Currently two models are published:
 
 <tr>
 <td>
-  <a href="https://github.com/natasha/navec/releases/download/v0.0.0/navec_hudlit_v1_12B_500K_300d_100q.tar">navec_hudlit_v1_12B_500K_300d_100q.tar</a>
+  <a href="https://storage.yandexcloud.net/natasha-navec/packs/navec_hudlit_v1_12B_500K_300d_100q.tar">navec_hudlit_v1_12B_500K_300d_100q.tar</a>
 </td>
 <td>50MB</td>
 <td>
@@ -44,7 +44,7 @@ Currently two models are published:
 
 <tr>
 <td>
-<a href="https://github.com/natasha/navec/releases/download/v0.0.0/navec_news_v1_1B_250K_300d_100q.tar">navec_news_v1_1B_250K_300d_100q.tar</a>
+<a href="https://storage.yandexcloud.net/natasha-navec/packs/navec_news_v1_1B_250K_300d_100q.tar">navec_news_v1_1B_250K_300d_100q.tar</a>
 </td>
 <td>25MB</td>
 <td>
@@ -75,7 +75,7 @@ $ pip install navec
 
 First download `hudlit` emdeddings (see the table above):
 ```bash
-wget https://github.com/natasha/navec/releases/download/v0.0.0/navec_hudlit_v1_12B_500K_300d_100q.tar
+wget https://storage.yandexcloud.net/natasha-navec/packs/navec_hudlit_v1_12B_500K_300d_100q.tar
 ```
 
 Load tar-archive with `Navec.load`, it takes ~1s and ~100MB of RAM:
@@ -341,7 +341,7 @@ yc compute instance create \
     --network-interface subnet-name=default,nat-ip-version=ipv4 \
     --create-boot-disk image-folder-id=standard-images,image-family=ubuntu-1804,type=network-hdd,size=1000 \
     --memory 8 \
-    --cores 1 \
+    --cores 2 \
     --core-fraction 100 \
     --ssh-key ~/.ssh/id_rsa.pub \
     --folder-name default \
