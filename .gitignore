@@ -4,8 +4,9 @@
 .DS_Store
 *.pyc
 *.egg-info
-build
-dist
-notes
+build/
+dist/
+notes/
+data/
 .coverage
 coverage.xml
