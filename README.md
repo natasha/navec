@@ -15,7 +15,7 @@ navec_hudlit_v1_12B_500K_300d_100q.tar
                  |    |    |    |
                  |    |    |     ---- 100 dimentions after quantization
                  |    |     --------- original vectors have 300 dimentions
-                 |     -------------- vocab size is 500 000 words + 1 for <unk>
+                 |     -------------- vocab size is 500 000 words + 2 for <unk>, <pad>
                   ------------------- dataset of 12 billion tokens was used
 ```
 
