@@ -32,6 +32,7 @@ Currently two models are published:
 <tr>
 <td>
   <a href="https://storage.yandexcloud.net/natasha-navec/packs/navec_hudlit_v1_12B_500K_300d_100q.tar">navec_hudlit_v1_12B_500K_300d_100q.tar</a>
+  <a name="hudlit"></a><a href="#hudlit"><code>#</code></a>
 </td>
 <td>50MB</td>
 <td>
@@ -44,7 +45,8 @@ Currently two models are published:
 
 <tr>
 <td>
-<a href="https://storage.yandexcloud.net/natasha-navec/packs/navec_news_v1_1B_250K_300d_100q.tar">navec_news_v1_1B_250K_300d_100q.tar</a>
+  <a href="https://storage.yandexcloud.net/natasha-navec/packs/navec_news_v1_1B_250K_300d_100q.tar">navec_news_v1_1B_250K_300d_100q.tar</a>
+  <a name="news"></a><a href="#news"><code>#</code></a>
 </td>
 <td>25MB</td>
 <td>
