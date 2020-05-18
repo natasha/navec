@@ -121,6 +121,24 @@ array([0., 0., 0., 0., 0., 0., ...
 
 ```
 
+To use Navec in PyTorch model there is a Slovnet module:
+```python
+>>> import torch
+>>> from slovnet.model.emb import NavecEmbedding
+
+>>> emb = NavecEmbedding(navec)
+>>> input = torch.tensor([1, 2, 0])
+>>> output = emb(input)
+
+>>> output.shape
+torch.Size([3, 300])
+
+>>> output
+tensor([[ 4.2000e-01,  3.6666e-01,  1.7728e-01, -3.8719e-01, -1.0762e-01,
+          1.6954e-01, -4.6063e-01,  5.4519e-01, -2.1212e-01,  2.0965e-01,
+          1.9658e-01,  2.7807e-01, -2.3802e-01,  3.5155e-01,  1.4491e-02,
+		  ...
+```
 
 ## Evaluation
 
