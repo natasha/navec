@@ -3,7 +3,7 @@
 
 ![CI](https://github.com/natasha/navec/workflows/CI/badge.svg) [![codecov](https://codecov.io/gh/natasha/navec/branch/master/graph/badge.svg)](https://codecov.io/gh/natasha/navec)
 
-`navec` is a library of pretrained word embeddings for russian language. It shows competitive or better results than <a href="http://rusvectores.org">RusVectores</a>, loads ~10 times faster (~1 sec), takes ~10 times less space (~50 MB).
+Navec is a library of pretrained word embeddings for russian language. It shows competitive or better results than <a href="http://rusvectores.org">RusVectores</a>, loads ~10 times faster (~1 sec), takes ~10 times less space (~50 MB).
 
 > Navec = large russian text datasets + vanila GloVe + quantization
 
@@ -67,7 +67,7 @@ Currently two models are published:
 
 ## Installation
 
-`navec` supports Pyton 3.5+ and PyPy 3.
+Navec supports Pyton 3.5+ and PyPy 3.
 
 ```bash
 $ pip install navec
