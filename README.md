@@ -330,6 +330,7 @@ Now let's look at intrinsic evaluation scores. Navec `hudlit` model does not sho
 
 - Chat — https://telegram.me/natural_language_processing
 - Issues — https://github.com/natasha/navec/issues
+- Commercial support — https://lab.alexkuk.ru
 
 ## Development
 
