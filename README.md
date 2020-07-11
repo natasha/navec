@@ -144,7 +144,7 @@ tensor([[ 4.2000e-01,  3.6666e-01,  1.7728e-01, -3.8719e-01, -1.0762e-01,
 
 Let's compore Navec to top 5 RusVectores models (based on <a href="https://github.com/natasha/corus#load_simlex">`simlex`</a> and <a href="https://github.com/natasha/corus#load_russe_hj">`hj`</a> eval datasets). In each column top 3 results are highlighted.
 
-* `init` — time it takes to load model file to RAM. `tayga_upos_skipgram_300_2_2019` word2vec binary file takes 15.7 seconds to load with `gensim.KeyedVectors.load_word2vec_format`. `tayga_none_fasttextcbow_300_10_2019` fastText large ~2.7 GB file takes 11.3 seconds. Navec `hudlit` with vocab 2 times larger than previous two takes 1 second.
+* `init` — time it takes to load model file to RAM. `tayga_upos_skipgram_300_2_2019` word2vec binary file takes 5 seconds to load with `gensim.KeyedVectors.load_word2vec_format`. `tayga_none_fasttextcbow_300_10_2019` fastText large ~2.7 GB file takes 8 seconds. Navec `hudlit` with vocab 2 times larger than previous two takes 1 second.
 * `get` — time is takes to query embedding vector for a single word. Word2vec models win here, to fetch a vector they basically do `dict.get`. FastText and Navec for every query do extra computation. FastText extracts and sums word ngrams, Navec unpacks vector from quantization table. In practice query to embeddings table is small compared to all other computation in network.
 * `disk` — model file size. It is convenient for deployment and distribution to have small models. Notice that `hudlit` model is 4-20 times smaller with vocab size 2 times bigger.
 * `ram` — space model takes in RAM after loading. It is convenient to have small memory footprint to fit more computation on single server.
@@ -167,8 +167,8 @@ Let's compore Navec to top 5 RusVectores models (based on <a href="https://githu
     <tr>
       <th>hudlit_12B_500K_300d_100q</th>
       <td>navec</td>
-      <td><b>1.0</b></td>
-      <td>19.9</td>
+      <td><b>1.1</b></td>
+      <td>21.6</td>
       <td><b>50.6</b></td>
       <td><b>95.3</b></td>
       <td><b>500K</b></td>
@@ -176,8 +176,8 @@ Let's compore Navec to top 5 RusVectores models (based on <a href="https://githu
     <tr>
       <th>news_1B_250K_300d_100q</th>
       <td>navec</td>
-      <td><b>0.5</b></td>
-      <td>20.3</td>
+      <td><b>0.8</b></td>
+      <td>20.7</td>
       <td><b>25.4</b></td>
       <td><b>47.7</b></td>
       <td><b>250K</b></td>
@@ -185,8 +185,8 @@ Let's compore Navec to top 5 RusVectores models (based on <a href="https://githu
     <tr>
       <th>ruscorpora_upos_cbow_300_20_2019</th>
       <td>w2v</td>
-      <td>12.1</td>
-      <td><b>1.6</b></td>
+      <td><b>3.3</b></td>
+      <td><b>1.4</b></td>
       <td><b>220.6</b></td>
       <td><b>236.1</b></td>
       <td>189K</td>
@@ -194,8 +194,8 @@ Let's compore Navec to top 5 RusVectores models (based on <a href="https://githu
     <tr>
       <th>ruwikiruscorpora_upos_skipgram_300_2_2019</th>
       <td>w2v</td>
-      <td>15.7</td>
-      <td><b>1.7</b></td>
+      <td>5.0</td>
+      <td><b>1.5</b></td>
       <td>290.0</td>
       <td>309.4</td>
       <td>248K</td>
@@ -203,8 +203,8 @@ Let's compore Navec to top 5 RusVectores models (based on <a href="https://githu
     <tr>
       <th>tayga_upos_skipgram_300_2_2019</th>
       <td>w2v</td>
-      <td>15.7</td>
-      <td><b>1.2</b></td>
+      <td>5.2</td>
+      <td><b>1.4</b></td>
       <td>290.7</td>
       <td>310.9</td>
       <td><b>249K</b></td>
@@ -212,8 +212,8 @@ Let's compore Navec to top 5 RusVectores models (based on <a href="https://githu
     <tr>
       <th>tayga_none_fasttextcbow_300_10_2019</th>
       <td>fasttext</td>
-      <td>11.3</td>
-      <td>14.3</td>
+      <td>8.0</td>
+      <td>13.4</td>
       <td>2741.9</td>
       <td>2746.9</td>
       <td>192K</td>
@@ -221,8 +221,8 @@ Let's compore Navec to top 5 RusVectores models (based on <a href="https://githu
     <tr>
       <th>araneum_none_fasttextcbow_300_5_2018</th>
       <td>fasttext</td>
-      <td><b>7.8</b></td>
-      <td>15.4</td>
+      <td>16.4</td>
+      <td>10.6</td>
       <td>2752.1</td>
       <td>2754.7</td>
       <td>195K</td>
