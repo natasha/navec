@@ -12,7 +12,7 @@ with open('requirements/main.txt') as file:
 
 setup(
     name='navec',
-    version='0.9.0',
+    version='0.10.0',
     description='Compact high quality word embeddings for russian language',
     long_description=description,
     long_description_content_type='text/markdown',
