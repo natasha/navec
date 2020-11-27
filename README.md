@@ -3,7 +3,7 @@
 
 ![CI](https://github.com/natasha/navec/workflows/CI/badge.svg) [![codecov](https://codecov.io/gh/natasha/navec/branch/master/graph/badge.svg)](https://codecov.io/gh/natasha/navec)
 
-Navec is a library of pretrained word embeddings for russian language. It shows competitive or better results than <a href="http://rusvectores.org">RusVectores</a>, loads ~10 times faster (~1 sec), takes ~10 times less space (~50 MB). See <a href="https://natasha.github.io/navec">natasha.github.io article</a> for more info.
+Navec is a library of pretrained word embeddings for russian language. It shows competitive or better results than <a href="http://rusvectores.org">RusVectores</a>, loads ~10 times faster (~1 sec), takes ~10 times less space (~50 MB).
 
 > Navec = large russian text datasets + vanila GloVe + quantization
 
@@ -139,6 +139,13 @@ tensor([[ 4.2000e-01,  3.6666e-01,  1.7728e-01, -3.8719e-01, -1.0762e-01,
           1.9658e-01,  2.7807e-01, -2.3802e-01,  3.5155e-01,  1.4491e-02,
 		  ...
 ```
+
+## Documentation
+
+Materials are in Russian:
+
+* <a href="https://natasha.github.io/navec">Navec article on natasha.github.io</a> 
+* <a href="https://youtu.be/-7XT_U6hVvk?t=1705">Slovnet section of Datafest 2020 talk</a>
 
 ## Evaluation
 
