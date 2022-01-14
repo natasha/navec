@@ -38,12 +38,23 @@ class Navec(Record):
 
     @property
     def as_gensim(self):
+        import gensim
         from gensim.models import KeyedVectors
 
         model = KeyedVectors(self.pq.dim)
         weights = self.pq.unpack()  # warning! memory heavy
-        # gensim.KeyedVectors no longer has .add method, use .add_vectors instead
-        model.add_vectors(self.vocab.words, weights) 
+        # Since gencim 4.0.0 gensim.KeyedVectors no longer has .add method, use .add_vectors instead
+        # Check gensim version
+        _gencim_version = gencim.__version__.split(".")
+        if _gencim_version == 4:
+            model.add_vectors(self.vocab.words, weights) 
+        
+        elif _gencim_version == 3:
+            model.add(self.vocab.words, weights)
+           
+        else:
+            raise "gensim must be no older than 3.7.1"
+
         return model
 
     def sampled(self, words):
