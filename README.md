@@ -1,7 +1,7 @@
 
 <img src="https://github.com/natasha/natasha-logos/blob/master/navec.svg">
 
-![CI](https://github.com/natasha/navec/workflows/CI/badge.svg) [![codecov](https://codecov.io/gh/natasha/navec/branch/master/graph/badge.svg)](https://codecov.io/gh/natasha/navec)
+![CI](https://github.com/natasha/navec/actions/workflows/test.yml/badge.svg)
 
 Navec is a library of pretrained word embeddings for Russian language. It shows competitive or better results than <a href="http://rusvectores.org">RusVectores</a>, loads ~10 times faster (~1 sec), takes ~10 times less space (~50 MB).
 
@@ -71,7 +71,7 @@ Currently two models are published:
 
 ## Installation
 
-Navec supports Pyton 3.5+ and PyPy 3.
+Navec supports Pyton 3.7+ and PyPy 3.
 
 ```bash
 $ pip install navec
@@ -339,26 +339,26 @@ Now let's look at intrinsic evaluation scores. Navec `hudlit` model does not sho
 
 ## Support
 
-- Chat — https://telegram.me/natural_language_processing
+- Chat — https://t.me/natural_language_processing
 - Issues — https://github.com/natasha/navec/issues
 - Commercial support — https://lab.alexkuk.ru
 
 ## Development
 
-Test
+Dev env
+
+```bash
+python -m venv ~/.venvs/natasha-navec
+source ~/.venvs/natasha-navec/bin/activate
+
+pip install -r requirements/dev.txt
+pip install -e .
+```
+
+Test + lint
 
 ```bash
 make test
-```
-
-Package
-
-```bash
-make version
-git push
-git push --tags
-
-make clean wheel upload
 ```
 
 Notice! All commands belows use code from `navec/train`, it is not under CI, it works only with Python 3, it is expected user is familiar with source code. We use Yandex Cloud Compute and Object Storage.
