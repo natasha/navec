@@ -38,12 +38,11 @@ class Navec(Record):
 
     @property
     def as_gensim(self):
-        import gensim
         from gensim.models import KeyedVectors
 
         model = KeyedVectors(self.pq.dim)
         weights = self.pq.unpack()  # warning! memory heavy
-        model.add_vectors(self.vocab.words, weights) 
+        model.add_vectors(self.vocab.words, weights)
         return model
 
     def sampled(self, words):
@@ -57,7 +56,6 @@ class Navec(Record):
             tar.dump(self.meta.as_bytes, META)
             tar.dump(self.vocab.as_bytes, VOCAB)
             tar.dump(self.pq.as_bytes, PQ_)
-
 
     @classmethod
     def load(cls, path):
