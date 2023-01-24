@@ -6,10 +6,6 @@ with open('README.md') as file:
     description = file.read()
 
 
-with open('requirements/main.txt') as file:
-    requirements = [_.strip() for _ in file]
-
-
 setup(
     name='navec',
     version='0.10.0',
@@ -27,7 +23,9 @@ setup(
     ],
     keywords='embeddings, word2vec, glove, nlp, russian, quantization',
     packages=find_packages(),
-    install_requires=requirements,
+    install_requires=[
+        'numpy'
+    ],
     entry_points={
         'console_scripts': [
             'navec-train=navec.train.ctl.__main__:main'
