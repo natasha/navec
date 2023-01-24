@@ -361,6 +361,18 @@ Test + lint
 make test
 ```
 
+Release
+
+```bash
+# Update setup.py version
+
+git commit -am 'Up version'
+git tag v0.10.0
+
+git push
+git push --tags
+```
+
 Notice! All commands belows use code from `navec/train`, it is not under CI, it works only with Python 3, it is expected user is familiar with source code. We use Yandex Cloud Compute and Object Storage.
 
 Create remote worker
